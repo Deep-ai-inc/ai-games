@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Generative AI For Games</title>
+    <meta charset="utf-8">
+    <style>
+      @import url(https://fonts.googleapis.com/css?family=Yanone+Kaffeesatz);
+      @import url(https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic);
+      @import url(https://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic);
+
+      body { font-family: 'Droid Serif'; }
+      h1, h2, h3 {
+        font-family: 'Droid Serif';
+        font-weight: normal;
+      }
+      .remark-code, .remark-inline-code { font-family: 'Ubuntu Mono'; }
+    </style>
+  </head>
+  <body>
+    <textarea id="source">
+
+class: center, middle
+
+# Generative AI For Games
+
+### by Kevin Baragona
+### @kevinbaragona
+### DeepAI
+
+---
+
+# The Big Picture
+
+### As of 2022-2023, Generative AI learns from vast quantities of unlabeled human data.
+### The AI learns from this data to produce human-like outputs.
+
+This works for nearly any type of content, including:
+text/dialogue, images, video, audio, and more.
+
+---
+
+# OpenAI Language Models
+
+### Currently, OpenAI's text (language) models are the most advanced.
+
+OpenAI offers many different models. The most important are:
+
+GPT3.5
+
+GPT3.5-turbo (default model of ChatGPT)
+
+GPT4
+
+---
+
+## GPT3.5-turbo is fast and cheap and very capable
+
+It's the default model of ChatGPT
+
+## GPT4 is newer and smarter
+
+It's more expensive
+
+It's slower
+
+It's far smarter and more capable.
+
+It has advanced reasoning and programming capabilities!
+
+I sometimes call it "basically a brain"
+
+---
+
+# Both GPT3.5 and GPT4 are available via OpenAI API
+
+This allows you to easily build their capabilities into your own app.
+
+The API requests are JSON and output JSON.
+
+---
+
+# The API supports "streaming" mode
+
+This allows you to show the output as it is generated.
+
+It is a little more complex call the API in streaming mode, but not super hard.
+
+They use something called "Server Sent Events" for streaming
+
+---
+
+# API calls take in chat history:
+
+
+## 3 types of messages:
+
+### system prompt
+### user messages
+### assistant messages
+
+## Then the API outputs one assistant response
+
+---
+
+# Other API parameters:
+
+## Temperature
+* Controls the amount of randomness/creativity in the response
+
+* Value between 0 and 2 (show temperature demo)
+
+## max_tokens - limits the size of outputs
+
+---
+
+# OpenAI Pricing
+
+Model	Prompt	Completion
+GPT4-8K context	$0.03 / 1K tokens	$0.06 / 1K tokens
+
+Model	Usage
+gpt-3.5-turbo	$0.002 / 1K tokens
+
+---
+
+    </textarea>
+    <script src="https://remarkjs.com/downloads/remark-latest.min.js">
+    </script>
+    <script>
+      var slideshow = remark.create();
+    </script>
+  </body>
+</html>
