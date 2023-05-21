@@ -10,6 +10,24 @@
         color: #eee;
     }
 
+    h1 {
+        text-align: center;
+        display: flex;
+    justify-content: center;
+    align-items: center;
+    }
+
+    h1 button {
+        background-color: #3a6d8c;
+        border: none;
+        border-radius: 5px;
+        padding: 10px;
+        color: white;
+        font-weight: bold;
+        cursor: pointer;
+        margin:10px;
+    }
+
     .container {
         display: flex;
         justify-content: center;
@@ -116,19 +134,21 @@
         background-color: #2a2a2a;
     }
 </style>
-    <title>Deep Dungeon</title>
+    <title>AI Adventure</title>
 </head>
 <body>
+    <h1>AI Adventure <button onclick="startGame()">New Game</button></h1>
+
     <div class="container">
         <div class="image-container">
             <img src="https://via.placeholder.com/300" alt="Square Image" width="300" height="300" style="width: 80%; height: auto;">
-            <p class="caption">Caption for the image goes here</p>
+            <p class="caption"> </p>
         </div>
         <div class="choices">
-            <div class="choice-btn" onclick="choiceButtonHandler(this)" >Choice 1</div>
-            <div class="choice-btn" onclick="choiceButtonHandler(this)" >Choice 2</div>
-            <div class="choice-btn" onclick="choiceButtonHandler(this)" >Choice 3</div>
-            <div class="choice-btn" onclick="choiceButtonHandler(this)" >Choice 4</div>
+            <div class="choice-btn" onclick="choiceButtonHandler(this)" >...</div>
+            <div class="choice-btn" onclick="choiceButtonHandler(this)" >...</div>
+            <div class="choice-btn" onclick="choiceButtonHandler(this)" >...</div>
+            <div class="choice-btn" onclick="choiceButtonHandler(this)" >...</div>
         </div>
     </div>
     <div id="chat-history">
@@ -421,6 +441,29 @@ function parseJSONWithInvalidText(jsonString) {
   } else {
     return json;
   }
+}
+
+function startGame(){
+    // clear the chat history
+    chatHistory.length = 0;
+    renderHistory();
+
+    // clear the image
+    const image = document.querySelector(".image-container img");
+    image.src = "https://via.placeholder.com/300";
+
+    // clear the caption
+    const caption = document.querySelector(".image-container .caption");
+    caption.textContent = " ";
+
+    // clear the choices
+    const choiceBtns = document.querySelectorAll(".choice-btn");
+    for (let i = 0; i < choiceBtns.length; i++) {
+        choiceBtns[i].textContent = "...";
+    }
+
+    // call the next game step
+    nextGameStep();
 }
 
 
