@@ -4,81 +4,429 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
-        body {
-            font-family: Arial, Helvetica, sans-serif;
-        }
+   body {
+        font-family: Arial, Helvetica, sans-serif;
+        background-color: #222;
+        color: #eee;
+    }
 
+    .container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        margin: 0 auto;
+        padding: 20px;
+    }
+
+    .image-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+
+    .caption {
+        margin-top: 10px;
+        color: #ddd;
+    }
+
+    .choices {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        gap: 10px;
+    }
+
+    .choice-btn {
+        width: 100%;
+        padding: 10px;
+        background-color: #3a6d8c;
+        border-radius: 5px;
+        text-align: center;
+        color: white;
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+    .choice-btn:hover {
+        background-color: #2a586e;
+    }
+
+    .characters {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        margin: 20px 0;
+    }
+
+    .character {
+        border: solid 1px #4d4d4d;
+        padding: 10px;
+        border-radius: 5px;
+        background-color: #333;
+    }
+
+    .character-name {
+        font-weight: bold;
+    }
+
+    @media screen and (min-width: 768px) {
         .container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-            margin: 0 auto;
-            padding: 20px;
+            flex-direction: row;
         }
 
         .image-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-
-        .caption {
-            margin-top: 10px;
+            margin-right: 20px;
         }
 
         .choices {
-            display: flex;
             flex-direction: column;
-            width: 100%;
-            gap: 10px;
+            gap: 20px;
         }
+    }
 
-        .choice-btn {
-            width: 100%;
-            padding: 10px;
-            background-color: #04aa6d;
-            border-radius: 5px;
-            text-align: center;
-            color: white;
-            font-weight: bold;
-            cursor: pointer;
-        }
+    .chat-item {
+        display: flex;
+        flex-direction: row;
+        margin-bottom: 10px;
+    }
 
-        .choice-btn:hover {
-            background-color: #016f53;
-        }
+    .chat-item-content {
+        padding: 10px;
+        border-radius: 10px;
+        background-color: #3a3a3a;
+        color: #ddd;
+        max-width: 80%;
+    }
 
-        @media screen and (min-width: 768px) {
-            .container {
-                flex-direction: row;
-            }
+    .chat-item.user .chat-item-content {
+        background-color: #2a2a2a;
+    }
 
-            .image-container {
-                margin-right: 20px;
-            }
+    .chat-item.user .chat-item-content {
+        margin-left: auto;
+    }
 
-            .choices {
-                flex-direction: column;
-                gap: 20px;
-            }
-        }
-    </style>
-    <title>HTML Interface</title>
+    .chat-item.user .chat-item-content {
+        margin-right: auto;
+    }
+
+    .chat-item.user .chat-item-content {
+        background-color: #2a2a2a;
+    }
+</style>
+    <title>Deep Dungeon</title>
 </head>
 <body>
     <div class="container">
         <div class="image-container">
-            <img src="https://via.placeholder.com/300" alt="Square Image" width="300" height="300">
+            <img src="https://via.placeholder.com/300" alt="Square Image" width="300" height="300" style="width: 80%; height: auto;">
             <p class="caption">Caption for the image goes here</p>
         </div>
         <div class="choices">
-            <div class="choice-btn">Choice 1</div>
-            <div class="choice-btn">Choice 2</div>
-            <div class="choice-btn">Choice 3</div>
-            <div class="choice-btn">Choice 4</div>
+            <div class="choice-btn" onclick="choiceButtonHandler(this)" >Choice 1</div>
+            <div class="choice-btn" onclick="choiceButtonHandler(this)" >Choice 2</div>
+            <div class="choice-btn" onclick="choiceButtonHandler(this)" >Choice 3</div>
+            <div class="choice-btn" onclick="choiceButtonHandler(this)" >Choice 4</div>
         </div>
     </div>
+    <div id="chat-history">
+        <!-- Chat history will be populated here -->
+    </div>
+    <div class="characters" id="characters">
+        <!-- Characters will be populated here -->
+    </div>
+
+<script>
+
+/*
+
+@app.route('/text_api', methods=['POST'])
+def text_api():
+    # get the JSON data from the request
+    data = request.get_json()
+    print("data: ", data)
+    # get the text from the JSON
+    text = data['text']
+
+*/
+
+async function callTextApi(params){
+    const response = await fetch('/text_api', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(params)
+    });
+    const data = await response.json();
+    return data;
+}
+
+// call like this:
+// var resp = await callTextApi({"chatHistory" : [{"role": "user", "content": "haiku"}]})
+
+async function makeCharacters(){
+    const prompt = 'write 1-sentence bios of 5 random characters in a role-playing game. the characters should have a name. respond as a JSON array with keys "name", "bio".';
+
+    const params = {
+        "chatHistory": [
+            {
+                "role": "user",
+                "content": prompt
+            }
+        ],
+    };
+
+    const resp = await callTextApi(params);
+    console.log(resp);
+    return resp;
+
+}
+
+
+const characterData = [
+    {"name": "Aelar Rivenhart", "bio": "A master archer and Elf princess who takes command of the wind and strikes every weakness of her enemies."},
+    {"name": "Cynthia Brighthelm", "bio": "A quirky Human mage with a happy demeanor, turning her adversaries' spells against them."},
+    {"name": "Argis the Bold", "bio": "King of the Dwarves, Argis fights with honor and commands his people with his indestructible hammer."},
+    {"name": "Xirala Shadowdancer", "bio": "A sultry Tiefling rogue who can shift between the shadows, stealing without a trace."},
+    {"name": "Baelgor Earthsplitter", "bio": "A wise Gnome druid with a deep connection to nature, wielding the earth itself as a weapon."},
+    {"name": "Elara Nightstar", "bio": "A celestial Aasimar Cleric called to heal and protect the faithful, her radiance blinding enemies."}];
+
+async function loadCharacters() {
+    const characterList = document.getElementById("characters");
+    characterData.forEach(character => {
+        const characterDiv = document.createElement("div");
+        characterDiv.className = "character";
+
+        const characterName = document.createElement("div");
+        characterName.className = "character-name";
+        characterName.textContent = character.name;
+        characterDiv.appendChild(characterName);
+
+        const characterBio = document.createElement("div");
+        characterBio.textContent = character.bio;
+        characterDiv.appendChild(characterBio);
+
+        characterList.appendChild(characterDiv);
+    });
+}
+
+loadCharacters();
+
+
+const chatHistory = [];
+
+async function nextGameStep(){
+    const systemPrompt = `You are a role-playing dungeon game. At each step, describe what is happening in 1 to 3 sentences. Then give the player 4 options on how to proceed. One of the options should be logical, one cunning, one aggressive, and one completely ridiculous. Return the options as a list of strings. Start the game by describing who the player is and where they are, what they see.
+Also describe what the user sees in a sentence, this is the image caption.
+The output after each turn (including the starting turn) should be a JSON object with the keys: "description", "choices", "image caption".
+This is a list of other characters they might encounter during the game:
+
+
+[
+  {"name": "Aelar Rivenhart", "bio": "A master archer and Elf princess who takes command of the wind and strikes every weakness of her enemies."},
+  {"name": "Cynthia Brighthelm", "bio": "A quirky Human mage with a happy demeanor, turning her adversaries' spells against them."},
+  {"name": "Argis the Bold", "bio": "King of the Dwarves, Argis fights with honor and commands his people with his indestructible hammer."},
+  {"name": "Xirala Shadowdancer", "bio": "A sultry Tiefling rogue who can shift between the shadows, stealing without a trace."},
+  {"name": "Baelgor Earthsplitter", "bio": "A wise Gnome druid with a deep connection to nature, wielding the earth itself as a weapon."},
+  {"name": "Elara Nightstar", "bio": "A celestial Aasimar Cleric called to heal and protect the faithful, her radiance blinding enemies."},
+  {"name": "Fizzlewick McFlambe", "bio": "An impulsive Halfling pyromancer who sets fire to the battlefield, leaving a trail of ashes in his wake."},
+]`;
+
+    const params = {
+        "chatHistory": [
+            {
+                "role": "system",
+                "content": systemPrompt
+            }, ...chatHistory
+        ],
+    };
+
+    console.log("sending: ",params);
+
+    const resp = await callTextApi(params);
+    console.log(resp);
+
+    const parsed = parseJSONWithInvalidText(resp['text']);
+
+    // parsed has keys "description", "choices", "image caption"
+
+    // Populate the frontend with the new data:
+    //const image = document.querySelector(".image-container img");
+    //image.src = parsed['image caption'];
+    try{
+        renderImageForPrompt(parsed['image caption']);
+    }catch(e){
+        console.log("error generating image: ",e);
+    }
+
+    const caption = document.querySelector(".image-container .caption");
+    caption.textContent = parsed['description'];
+
+    // update all choice-btn elements with the new choices
+    const choiceBtns = document.querySelectorAll(".choice-btn");
+    for (let i = 0; i < choiceBtns.length; i++) {
+        choiceBtns[i].textContent = parsed['choices'][i];
+    }
+
+    // update the chat history, append the json as a string as assistant response
+    chatHistory.push({
+        "role": "assistant",
+        "content": JSON.stringify(parsed)
+    });
+    renderHistory();
+
+    return resp;
+
+}
+
+async function choiceButtonHandler(btn){
+    const choice = btn.textContent;
+    console.log("choice: ", choice);
+
+    // update the chat history
+    chatHistory.push({
+        "role": "user",
+        "content": "The player chooses: "+choice
+    });
+    renderHistory();
+
+    // call the next game step
+    await nextGameStep();
+}
+
+function renderHistory(){
+
+    // render chatHistory, given that it looks like this:
+    /*
+
+    [
+    {
+        "role": "assistant",
+        "content": "{\n  \"description\": \"You are an adventurer in the mystical land of Eldar, standing at the entrance of the Darklight Cavern. You are carrying a sword and shield, ready to face whatever awaits you.\",\n  \"choices\": [\n    \"Enter the cavern cautiously, keeping an eye out for traps.\",\n    \"Create a distraction outside the cavern to lure any possible enemies out.\",\n    \"Charge into the cavern with a battle cry, sword swinging.\",\n    \"Stand outside and yell for someone to bring you a sandwich.\"\n  ],\n  \"image caption\": \"The mouth of the Darklight Cavern looms before you, shrouded in darkness.\"\n}"
+    },
+    {
+        "role": "user",
+        "content": "The player chooses: Stand outside and yell for someone to bring you a sandwich."
+    },
+    {
+        "role": "assistant",
+        "content": "{\n  \"description\": \"Unsurprisingly, your sandwich plea goes unanswered. The only response you get is a faint echo from the depths of the cavern. You feel a little embarrassed, but also hungry.\",\n  \"choices\": [\n    \"Enter the cavern cautiously, keeping an eye out for traps.\",\n    \"Create a distraction outside the cavern to lure any possible enemies out.\",\n    \"Charge into the cavern with a battle cry, sword swinging.\",\n    \"Begin a lengthy one-person discussion about the philosophical implications of sandwiches in the universe.\"\n  ],\n  \"image caption\": \"You stand awkwardly at the entrance of the cavern, still hoping for a sandwich.\"\n}"
+    },
+
+    */
+
+    // Only keep the description from the assistant responses.
+
+    // Bold the user responses.
+
+    // Render the chat history in the chat-history div.
+
+    // clear the div first:
+    const chatHistoryDiv = document.getElementById("chat-history");
+    chatHistoryDiv.innerHTML = "";
+
+    //for (let i = 0; i < chatHistory.length; i++) {
+    // reverse the order so the most recent is at the bottom
+    for (let i = chatHistory.length-1; i >= 0; i--) {
+        const chatItem = chatHistory[i];
+        const chatItemDiv = document.createElement("div");
+        chatItemDiv.className = "chat-item";
+        if (chatItem.role === "user") {
+            chatItemDiv.className += " user";
+        }
+        const chatItemContent = document.createElement("div");
+        chatItemContent.className = "chat-item-content";
+        chatItemContent.textContent = chatItem.content;
+
+        // if the role is assistant, parse the content as json and only keep the description
+        if (chatItem.role === "assistant") {
+            const parsed = JSON.parse(chatItem.content);
+            chatItemContent.textContent = parsed['description'];
+        }
+
+        chatItemDiv.appendChild(chatItemContent);
+        const chatHistoryDiv = document.getElementById("chat-history");
+        chatHistoryDiv.appendChild(chatItemDiv);
+    }
+}
+
+
+
+async function callImageApi(params) {
+    const resp = await fetch('/image_api', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(params)
+    });
+    const data = await resp.json();
+    return data;
+}
+
+// call like await callImageApi({"text":"butter", "grid_size":"1"})
+// returns {
+//    "image_url": "https://api.deepai.org/job-view-file/7859c38a-f217-49ff-a20f-54874c8f158b/outputs/output.jpg"
+//}
+
+async function renderImageForPrompt(prompt){
+    // call the image api with the prompt
+    const params = {
+        "text": prompt,
+        "grid_size": "1"
+    };
+    const resp = await callImageApi(params);
+    console.log(resp);
+
+    // update the image in the frontend
+    const image = document.querySelector(".image-container img");
+    image.src = resp['image_url'];
+
+    // now upscale the image and show it
+    const upscaledImage = await callUpscaleApi({"image":resp['image_url']});
+    console.log("upscaled image: ", upscaledImage);
+    image.src = upscaledImage['image_url'];
+}
+
+
+async function callUpscaleApi(params) {
+    const resp = await fetch('/upscale_api', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(params)
+    });
+    const data = await resp.json();
+    return data;
+}
+
+function parseJSONWithInvalidText(jsonString) {
+  let json = null;
+
+  while (jsonString.length > 0) {
+    try {
+      json = JSON.parse(jsonString);
+      break;
+    } catch (e) {
+      jsonString = jsonString.slice(0, -1);
+    }
+  }
+
+  if (json === null) {
+    throw new Error('Failed to parse JSON');
+  } else {
+    return json;
+  }
+}
+
+
+</script>
+
+
+
 </body>
 </html>
