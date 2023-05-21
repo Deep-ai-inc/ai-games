@@ -17,9 +17,8 @@ View presentation [here](https://deep-ai-inc.github.io/ai-games/presentation.htm
 
 # .env file
 
-Add these variables to your .env file
+Add these variables to your .env file:
 ```bash
 OPENAI_API_KEY="your key here"
-
 DEEPAI_API_KEY="your key here"
 ```
