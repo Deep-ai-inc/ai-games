@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .image-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .caption {
+            margin-top: 10px;
+        }
+
+        .choices {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            gap: 10px;
+        }
+
+        .choice-btn {
+            width: 100%;
+            padding: 10px;
+            background-color: #04aa6d;
+            border-radius: 5px;
+            text-align: center;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .choice-btn:hover {
+            background-color: #016f53;
+        }
+
+        @media screen and (min-width: 768px) {
+            .container {
+                flex-direction: row;
+            }
+
+            .image-container {
+                margin-right: 20px;
+            }
+
+            .choices {
+                flex-direction: column;
+                gap: 20px;
+            }
+        }
+    </style>
+    <title>HTML Interface</title>
+</head>
+<body>
+    <div class="container">
+        <div class="image-container">
+            <img src="https://via.placeholder.com/300" alt="Square Image" width="300" height="300">
+            <p class="caption">Caption for the image goes here</p>
+        </div>
+        <div class="choices">
+            <div class="choice-btn">Choice 1</div>
+            <div class="choice-btn">Choice 2</div>
+            <div class="choice-btn">Choice 3</div>
+            <div class="choice-btn">Choice 4</div>
+        </div>
+    </div>
+</body>
+</html>

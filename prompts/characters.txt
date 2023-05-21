@@ -1,0 +1,1 @@
+write 1-sentence bio's of 5 random characters in a role-playing game. the characters should have a name. respond as a JSON array with keys "name", "bio".

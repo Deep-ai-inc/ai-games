@@ -5,3 +5,12 @@
 ### [DeepAI](https://deep.ai)
 
 View presentation [here](https://deep-ai-inc.github.io/ai-games/presentation.html)
+
+
+# Python Packages
+
+- requests
+- sseclient
+- Flask
+- dotenv
+- 
