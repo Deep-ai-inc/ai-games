@@ -133,12 +133,28 @@
     .chat-item.user .chat-item-content {
         background-color: #2a2a2a;
     }
+
+    #progressContainer {
+      width: 100%;
+      height: 10px;
+      margin: 5px;
+    }
+
+    #progressBar {
+      height: 10px;
+      background: #61b1ff;
+      border-radius: 10px;
+      width: 0%; /* This gets dynamically updated to set progress */
+    }
+
 </style>
     <title>AI Adventure</title>
 </head>
 <body>
     <h1>AI Adventure <button onclick="startGame()">New Game</button></h1>
-
+    <div id="progressContainer">
+      <div id="progressBar"> </div>
+    </div>
     <div class="container">
         <div class="image-container">
             <img src="https://via.placeholder.com/300" alt="Square Image" width="300" height="300" style="width: 80%; height: auto;">
@@ -314,7 +330,7 @@ async function choiceButtonHandler(btn){
     renderHistory();
 
     // call the next game step
-    await nextGameStep();
+    await progressBarFunctionWrapper(nextGameStep);
 }
 
 function renderHistory(){
@@ -463,8 +479,61 @@ function startGame(){
     }
 
     // call the next game step
-    nextGameStep();
+    progressBarFunctionWrapper(nextGameStep);
 }
+
+
+// Progress bar stuff
+
+var currentProgressTime = 0;
+var currentProgressTimer = null;
+var currentlyRunningModel = false;
+const model_expected_runtime = 20;
+function cancelProgressBar(){
+    progressBar = document.getElementById('progressBar');
+    progressBar.style.width = '0%';
+    currentProgressTime = 0;
+    if(currentProgressTimer){
+        window.clearInterval(currentProgressTimer);
+        currentProgressTimer = null;
+    }
+}
+
+// This is a function that wraps your target async function and handles the progress bar...
+
+async function progressBarFunctionWrapper(functionToWrap){
+    var expected_time = model_expected_runtime;
+    if(! expected_time){
+        expected_time = 10;
+    }
+
+    console.log('start progress bar');
+    currentlyRunningModel = true;
+    progressBar = document.getElementById('progressBar');
+    cancelProgressBar();
+    try{
+        var fps = 60;
+
+        currentProgressTimer = window.setInterval(function(){
+            currentProgressTime++;
+            var progress_pct = Math.tanh((currentProgressTime/fps)/expected_time)*100;
+            progressBar.style.width = progress_pct+'%';
+        }, Math.round(1000/fps));
+
+        return await functionToWrap();
+    }catch(e){
+        console.log(e);
+    }finally{
+        console.log('end progress bar');
+        currentlyRunningModel = false;
+
+        cancelProgressBar();
+    }
+};
+
+// End progress bar stuff
+
+
 
 
 </script>
