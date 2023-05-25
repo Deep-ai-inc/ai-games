@@ -60,7 +60,7 @@ def text_api():
             "frequency_penalty": 0,
 
             "temperature": 1.0,
-            "model": "gpt-4",
+            "model": "gpt-3.5-turbo",
             "messages": chatHistory,
         }
     )

@@ -23,10 +23,10 @@ class: center, middle
 
 # Generative AI For Games
 
+<img src="images/DeepAI-logo-transparent.png" width="30%">
+
 ### by Kevin Baragona
 ### @kevinbaragona
-### DeepAI
-
 ---
 
 # The Big Picture
@@ -37,6 +37,48 @@ class: center, middle
 This works for nearly any type of content, including:
 text/dialogue, images, video, audio, and more.
 
+---
+
+# How Text-To-Image Models Work
+
+We need a training dataset of millions of image and caption pairs.
+
+This is the only data needed to train the model to generate images from text.
+
+<img src="images/diffusion architecture.png" width="100%">
+
+---
+
+**Image Encoder**: Translates training images to vectors in a latent space for further processing. The latent space is a mathematical space where the image information can be represented as vectors (i.e. arrays of numbers)
+
+**Text Encoder**: Translates text into high dimensional vectors (you can think of them as arrays of numbers that represent the meaning of the texts) that machine learning models can understand.
+
+**Diffusion model**: Generates new images in the latent space, conditioned by the text guidance (i.e. the input text guides the generation of images in this latent space)
+
+**Image Decoder**: Translates the image information in the latent space to an actual image constructed with pixels.
+
+---
+
+# Text Encoder
+
+<img src="images/text encoder.png" width="100%">
+
+---
+
+# CLIP text and image embeddings
+
+
+CLIP maps images and text into a shared latent space where the similarity of the representations indicates similarity of the content.
+<img src="images/clip.webp" width="80%">
+
+---
+
+# Large Language Models
+
+<img src="images/language model decoder.png" width="70%"><br/>
+Large language models are complex deep learning functions that map a context of input text tokens to output a probability distribution of the next token in the sequence.
+
+This probability distribution can be decoded into a text token, which can then be appended to the input context to generate a longer sequence.
 ---
 
 # OpenAI Language Models
@@ -124,6 +166,8 @@ gpt-3.5-turbo	$0.002 / 1K tokens
 ---
 
 # Let's build a game
+
+We'll use both image and text generation to build a role playing game.
 
 ### Prompt engineering
 

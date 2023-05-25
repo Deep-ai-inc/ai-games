@@ -23,7 +23,9 @@ This is a list of other characters they might encounter during the game:
   {"name": "Baelgor Earthsplitter", "bio": "A wise Gnome druid with a deep connection to nature, wielding the earth itself as a weapon."},
   {"name": "Elara Nightstar", "bio": "A celestial Aasimar Cleric called to heal and protect the faithful, her radiance blinding enemies."},
   {"name": "Fizzlewick McFlambe", "bio": "An impulsive Halfling pyromancer who sets fire to the battlefield, leaving a trail of ashes in his wake."},
-]'''}]
+]
+Respond only in JSON.
+'''}]
 
 resp = requests.post(
         "https://api.openai.com/v1/chat/completions",
@@ -38,7 +40,7 @@ resp = requests.post(
             "frequency_penalty": 0,
 
             "temperature": 1.0,
-            "model": "gpt-4",
+            "model": "gpt-3.5-turbo",
             "messages": chatHistory,
         }
     )

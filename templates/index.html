@@ -271,12 +271,25 @@ This is a list of other characters they might encounter during the game:
   {"name": "Fizzlewick McFlambe", "bio": "An impulsive Halfling pyromancer who sets fire to the battlefield, leaving a trail of ashes in his wake."},
 ]`;
 
+    // deep copy the chat history because we're going to modify it before sending it to the server
+
+    const chatHistoryCopy = JSON.parse(JSON.stringify(chatHistory));
+
+    // if the length of the chat history is 0, then we're on the first turn, start it with this user message: "The game is starting. Respond only in JSON."
+
+    if(chatHistoryCopy.length === 0){
+        chatHistoryCopy.push({"role": "user", "content": "The game is starting. Respond only in JSON."});
+    }else{
+        // otherwise, we're on a subsequent turn, so append "Respond only in JSON." to the last message in the chat history.
+        chatHistoryCopy[chatHistoryCopy.length - 1].content += " Respond only in JSON.";
+    }
+
     const params = {
         "chatHistory": [
             {
                 "role": "system",
                 "content": systemPrompt
-            }, ...chatHistory
+            }, ...chatHistoryCopy
         ],
     };
 
@@ -325,7 +338,7 @@ async function choiceButtonHandler(btn){
     // update the chat history
     chatHistory.push({
         "role": "user",
-        "content": "The player chooses: "+choice
+        "content": `The player chooses: "${choice}". `
     });
     renderHistory();
 
