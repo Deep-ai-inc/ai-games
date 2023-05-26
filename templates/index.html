@@ -71,6 +71,7 @@
         background-color: #2a586e;
     }
 
+    /*
     .characters {
         display: flex;
         flex-direction: column;
@@ -88,6 +89,42 @@
     .character-name {
         font-weight: bold;
     }
+
+    img.character-image {
+        width: 200px;
+        height: 200px;
+    }
+
+    actually, format the characters in a grid:
+
+    */
+
+
+    .characters {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+        margin: 20px 0;
+    }
+
+    .character {
+        border: solid 1px #4d4d4d;
+        padding: 10px;
+        border-radius: 5px;
+        background-color: #333;
+        text-align: center;
+    }
+
+    .character-name {
+        font-weight: bold;
+    }
+
+    img.character-image {
+        width: 200px;
+        height: 200px;
+    }
+
+
 
     @media screen and (min-width: 768px) {
         .container {
@@ -246,7 +283,34 @@ async function loadCharacters() {
         characterDiv.appendChild(characterBio);
 
         characterList.appendChild(characterDiv);
+
+        // use the image api to make a portrait for each character
+        // append it to the character div when it is ready
+
+        const getImage = async () => {
+            const data = await callImageApi({
+            "text":"a role playing portrait of " + character.bio,
+             "grid_size":"1",
+             "negative_prompt":"nude nudity, cropped, deformed, drawing, cartoon, grid, text, caption, playing card, trading card"
+            });
+            return data;
+        }
+        getImage().then(data => {
+            const characterImage = document.createElement("img");
+            characterImage.src = data.image_url;
+            characterImage.alt = character.name;
+            characterImage.width = 300;
+            characterImage.height = 300;
+            characterImage.className = "character-image";
+            characterDiv.appendChild(characterImage);
+
+        });
     });
+}
+
+async function makeImagesForCharacters(){
+    // use the image api to make a portrait for each character
+    //
 }
 
 loadCharacters();
