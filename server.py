@@ -1,7 +1,11 @@
 #!/usr/bin/env python3
 # Flask Server:
+import json
+import sys
+
 import requests
-from flask import Flask, render_template, request, redirect, url_for, flash, jsonify
+from flask import Flask, render_template, request, redirect, url_for, flash, jsonify, Response
+import sseclient
 
 # load variables from .env file by evaluating the file as python code
 OPENAI_API_KEY = None
@@ -26,6 +30,38 @@ def main():
 
 # route that takes in JSON (post) and returns JSON:
 
+def generate_response(requests_resp):
+    # return resp.content
+    total_response = ''
+    client = sseclient.SSEClient(requests_resp)
+    for event in client.events():
+        if event.data == "[DONE]":
+            print("\n\ndone")
+            break
+
+        try:
+            parsed = json.loads(event.data)
+            # print("parsed: ", parsed)
+        except Exception as e:
+            print("error parsing json: ", e)
+            print("event.data: ", event.data)
+            continue
+
+        # we want to return the "content" field
+        if 'choices' in parsed:
+            # print(parsed['choices'][0]['delta']['content'])
+            if 'content' in parsed['choices'][0]['delta']:
+
+                text = parsed['choices'][0]['delta']['content']
+                total_response += text
+                sys.stdout.write(text)
+                sys.stdout.flush()
+            else:
+                # print("no content field in this chunk: ", parsed)
+                pass
+
+    return total_response
+
 @app.route('/text_api', methods=['POST'])
 def text_api():
     # get the JSON data from the request
@@ -33,20 +69,8 @@ def text_api():
     print("data: ", data)
     # get the text from the JSON
     chatHistory = data['chatHistory']
-    # make the request to the OpenAI API
-    # response = openai.Completion.create(
-    #     engine="davinci",
-    #     prompt=text,
-    #     temperature=0.9,
-    #     max_tokens=100,
-    #     top_p=1,
-    #     frequency_penalty=0.0,
-    #     presence_penalty=0.0,
-    #     stop=["\n", " Human:", " AI:"]
-    # )
 
-    # chatHistory = [{"role": "user", "content": text}]
-
+    stream=True
     resp = requests.post(
         "https://api.openai.com/v1/chat/completions",
         headers={
@@ -62,19 +86,30 @@ def text_api():
             "temperature": 1.0,
             "model": "gpt-3.5-turbo",
             "messages": chatHistory,
-        }
+            "stream": True
+        },
+        stream=True
     )
-    print("sent request to openai")
-    print(resp.content)
-    resp.raise_for_status()
-    response = resp.json()
-    print("response from openai: ", response)
+    print("sent request to openai\n\n")
+    if stream:
 
-    # get actual text from response:
-    text = response['choices'][0]['message']['content']
+        # return resp.content as a streaming response
 
-    # return the response as JSON
-    return jsonify({'text': text})
+
+        return generate_response(resp), {"Content-Type": "text/plain"}
+        #return jsonify({'text': total_response})
+
+    else:
+        print(resp.content)
+        resp.raise_for_status()
+        response = resp.json()
+        print("response from openai: ", response)
+
+        # get actual text from response:
+        text = response['choices'][0]['message']['content']
+
+        # return the response as JSON
+        return jsonify({'text': text})
 
 
 # now make image API that uses DeepAI Text to Image API

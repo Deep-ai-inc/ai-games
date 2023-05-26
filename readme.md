@@ -10,7 +10,7 @@ View presentation [here](https://deep-ai-inc.github.io/ai-games/presentation.htm
 # Python Packages
 
 - requests
-- sseclient
+- sseclient-py
 - Flask
 - dotenv
 - urllib3==1.26.6

@@ -194,7 +194,7 @@
     </div>
     <div class="container">
         <div class="image-container">
-            <img src="https://via.placeholder.com/300" alt="Square Image" width="300" height="300" style="width: 55%; height: auto;">
+            <img src="https://via.placeholder.com/300" alt="Square Image" width="300" height="300" style="width: 70%; height: auto; max-width: 600px;">
             <p class="caption"> </p>
         </div>
         <div class="choices">
@@ -233,8 +233,19 @@ async function callTextApi(params){
         },
         body: JSON.stringify(params)
     });
-    const data = await response.json();
-    return data;
+    const reader = response.body.pipeThrough(new TextDecoderStream()).getReader();
+    var fullResponse = "";
+    while (true) {
+      const {value, done} = await reader.read();
+      if (done) break;
+      //console.log('Received', value);
+      fullResponse += value;
+    }
+
+    console.log('Response fully received');
+    //const data = await response.json();
+    //return data;
+    return fullResponse;
 }
 
 // call like this:
@@ -313,7 +324,6 @@ async function makeImagesForCharacters(){
     //
 }
 
-loadCharacters();
 
 
 const chatHistory = [];
@@ -345,7 +355,7 @@ This is a list of other characters they might encounter during the game:
         chatHistoryCopy.push({"role": "user", "content": "The game is starting. Respond only in JSON."});
     }else{
         // otherwise, we're on a subsequent turn, so append "Respond only in JSON." to the last message in the chat history.
-        chatHistoryCopy[chatHistoryCopy.length - 1].content += " Respond only in JSON.";
+        chatHistoryCopy[chatHistoryCopy.length - 1].content += " One of the choices should be logical, one cunning, one aggressive, and one completely ridiculous. Respond only in JSON.";
     }
 
     const params = {
@@ -362,7 +372,7 @@ This is a list of other characters they might encounter during the game:
     const resp = await callTextApi(params);
     console.log(resp);
 
-    const parsed = parseJSONWithInvalidText(resp['text']);
+    const parsed = parseJSONWithInvalidText(resp);
 
     // parsed has keys "description", "choices", "image caption"
 
@@ -518,6 +528,11 @@ async function callUpscaleApi(params) {
 }
 
 function parseJSONWithInvalidText(jsonString) {
+  // if json is wrapped in "```", remove them from beginning and end
+    if (jsonString.startsWith('```') && jsonString.endsWith('```')) {
+        jsonString = jsonString.slice(3, -3);
+    }
+
   let json = null;
 
   while (jsonString.length > 0) {
@@ -557,6 +572,7 @@ function startGame(){
 
     // call the next game step
     progressBarFunctionWrapper(nextGameStep);
+    loadCharacters();
 }
 
 
