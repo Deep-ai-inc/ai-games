@@ -474,15 +474,29 @@ function renderHistory(){
 
 
 async function callImageApi(params) {
-    const resp = await fetch('/image_api', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(params)
-    });
-    const data = await resp.json();
-    return data;
+    const max_retries = 3;
+
+    for (let i = 0; i < max_retries; i++) {
+        try {
+            const resp = await fetch('/image_api', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(params)
+            });
+            const data = await resp.json();
+            if (! data['image_url']) {
+                throw "image url not found in response";
+            }
+            return data;
+        } catch (e) {
+            console.log("error calling image api: ", e);
+            // sleep before retrying
+            await new Promise(r => setTimeout(r, 2000));
+        }
+    }
+
 }
 
 // call like await callImageApi({"text":"butter", "grid_size":"1"})
