@@ -1,13 +1,19 @@
 #!/usr/bin/env python3
+import os
+
 import requests
 
-# load variables from .env file by evaluating the file as python code
-OPENAI_API_KEY = None
-DEEPAI_API_KEY = None
-file = open('.env', 'r')
-for line in file:
-    if line[0] != '#':
-        exec(line)
+# load variables from .env or environment variables file by evaluating the file as python code
+OPENAI_API_KEY = os.environ.get('OPENAI_API_KEY')
+DEEPAI_API_KEY = os.environ.get('DEEPAI_API_KEY')
+if os.path.exists('.env'):
+    file = open('.env', 'r')
+    for line in file:
+        if line[0] != '#':
+            exec(line)
+
+print(OPENAI_API_KEY)
+print(DEEPAI_API_KEY)
 
 chatHistory = [{"role": "user", "content": '''You are a role-playing dungeon game. At each step, describe what is happening in 1 to 3 sentences. Then give the player 4 options on how to proceed. One of the options should be logical, one cunning, one aggressive, and one completely ridiculous. Return the options as a list of strings. Start the game by describing who the player is and where they are, what they see.
 Also describe what the user sees in a sentence, this is the image caption.

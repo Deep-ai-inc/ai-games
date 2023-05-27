@@ -5,13 +5,17 @@ from os import system
 
 import requests
 
-# load variables from .env file by evaluating the file as python code
-OPENAI_API_KEY = None
-DEEPAI_API_KEY = None
-file = open('.env', 'r')
-for line in file:
-    if line[0] != '#':
-        exec(line)
+# load variables from .env or environment variables file by evaluating the file as python code
+OPENAI_API_KEY = os.environ.get('OPENAI_API_KEY')
+DEEPAI_API_KEY = os.environ.get('DEEPAI_API_KEY')
+if os.path.exists('.env'):
+    file = open('.env', 'r')
+    for line in file:
+        if line[0] != '#':
+            exec(line)
+
+print(OPENAI_API_KEY)
+print(DEEPAI_API_KEY)
 
 
 # generate image using deepai text2img api
