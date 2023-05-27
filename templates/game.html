@@ -1,0 +1,1096 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+   body {
+        font-family: Arial, Helvetica, sans-serif;
+        background-color: #222;
+        color: #eee;
+    }
+
+    h1 {
+        text-align: center;
+        display: flex;
+    justify-content: center;
+    align-items: center;
+    }
+
+    h1 button {
+        background-color: #3a6d8c;
+        border: none;
+        border-radius: 5px;
+        padding: 10px;
+        color: white;
+        font-weight: bold;
+        cursor: pointer;
+        margin:10px;
+    }
+
+    .container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        margin: 0 auto;
+        padding: 20px;
+    }
+
+    .image-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+
+    .caption {
+        margin-top: 10px;
+        color: #ddd;
+    }
+
+    .choices {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        gap: 10px;
+    }
+
+    .choice-btn {
+        width: 100%;
+        padding: 10px;
+        background-color: #3a6d8c;
+        border-radius: 5px;
+        text-align: center;
+        color: white;
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+    .choice-btn:hover {
+        background-color: #2a586e;
+    }
+
+    .game-title {
+        display: inline-block;
+        width: 109px;
+        height: 101px;
+        border-radius: 18px;
+        padding: 14px;
+        overflow: hidden;
+        margin: 4px;
+        position: relative;
+        cursor: pointer;
+
+    }
+
+    .game-title img {
+        left: 0px;
+        width: 100%;
+        height: auto;
+        position: absolute;
+        top: 0px;
+        z-index: -1;
+    }
+
+    .game-title .text{
+        left: 0px;
+        position: absolute;
+        background: #000000d9;
+        bottom: 0px;
+        padding: 8px;
+        font-size: 18px;
+        text-align: center;
+    }
+
+    .characters {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+        margin: 20px 0;
+    }
+
+    .character {
+        border: solid 1px #4d4d4d;
+        padding: 10px;
+        border-radius: 5px;
+        background-color: #333;
+        text-align: center;
+    }
+
+    .character-name {
+        font-weight: bold;
+    }
+
+    img.character-image {
+        width: 200px;
+        height: 200px;
+    }
+
+
+
+    @media screen and (min-width: 768px) {
+        .container {
+            flex-direction: row;
+        }
+
+        .image-container {
+            margin-right: 20px;
+        }
+
+        .choices {
+            flex-direction: column;
+            gap: 20px;
+        }
+    }
+
+    .chat-item {
+        display: flex;
+        flex-direction: row;
+        margin-bottom: 10px;
+    }
+
+    .chat-item-content {
+        padding: 10px;
+        border-radius: 10px;
+        background-color: #3a3a3a;
+        color: #ddd;
+        max-width: 80%;
+    }
+
+    .chat-item.user .chat-item-content {
+        background-color: #2a2a2a;
+    }
+
+    .chat-item.user .chat-item-content {
+        margin-left: auto;
+    }
+
+    .chat-item.user .chat-item-content {
+        margin-right: auto;
+    }
+
+    .chat-item.user .chat-item-content {
+        background-color: #2a2a2a;
+    }
+
+    #progressContainer {
+      width: 100%;
+      height: 10px;
+      margin: 5px;
+    }
+
+    #progressBar {
+      height: 10px;
+      background: #61b1ff;
+      border-radius: 10px;
+      width: 0%; /* This gets dynamically updated to set progress */
+    }
+
+</style>
+    <title>AI Adventure</title>
+</head>
+<body>
+    <h1>AI Adventure </h1>
+<!--    <button onclick="startGame()">New Game</button> -->
+    <div class="gameTitleSelector">
+
+    </div>
+    <div id="progressContainer">
+      <div id="progressBar"> </div>
+    </div>
+    <div class="container">
+        <div class="image-container">
+            <img src="https://via.placeholder.com/300" alt="Square Image" width="300" height="300" style="width: 70%; height: auto; max-width: 600px;">
+            <p class="caption"> </p>
+        </div>
+        <div class="choices">
+            <div class="choice-btn" onclick="choiceButtonHandler(this)" >...</div>
+            <div class="choice-btn" onclick="choiceButtonHandler(this)" >...</div>
+            <div class="choice-btn" onclick="choiceButtonHandler(this)" >...</div>
+            <div class="choice-btn" onclick="choiceButtonHandler(this)" >...</div>
+        </div>
+    </div>
+    <div id="chat-history">
+        <!-- Chat history will be populated here -->
+    </div>
+    <div class="characters" id="characters">
+        <!-- Characters will be populated here -->
+    </div>
+
+<script>
+
+var chosenGameTitle = "";
+
+/*
+
+@app.route('/text_api', methods=['POST'])
+def text_api():
+    # get the JSON data from the request
+    data = request.get_json()
+    print("data: ", data)
+    # get the text from the JSON
+    text = data['text']
+
+*/
+
+async function callTextApi(params){
+    const response = await fetch('/text_api', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(params)
+    });
+    const reader = response.body.pipeThrough(new TextDecoderStream()).getReader();
+    var fullResponse = "";
+    while (true) {
+      const {value, done} = await reader.read();
+      if (done) break;
+      //console.log('Received', value);
+      fullResponse += value;
+    }
+
+    console.log('Response fully received');
+    //const data = await response.json();
+    //return data;
+    return fullResponse;
+}
+
+// call like this:
+// var resp = await callTextApi({"chatHistory" : [{"role": "user", "content": "haiku"}]})
+
+async function makeCharacters(){
+    const prompt = 'write 1-sentence bios of 5 random characters in a role-playing game. the characters should have a name. respond as a JSON array with keys "name", "bio".';
+
+    const params = {
+        "chatHistory": [
+            {
+                "role": "user",
+                "content": prompt
+            }
+        ],
+    };
+
+    const resp = await callTextApi(params);
+    console.log(resp);
+    return resp;
+
+}
+
+
+var characterData;
+
+async function loadCharacters() {
+    const characterList = document.getElementById("characters");
+    characterData.forEach(character => {
+        const characterDiv = document.createElement("div");
+        characterDiv.className = "character";
+
+        const characterName = document.createElement("div");
+        characterName.className = "character-name";
+        characterName.textContent = character.name;
+        characterDiv.appendChild(characterName);
+
+        const characterBio = document.createElement("div");
+        characterBio.textContent = character.bio;
+        characterDiv.appendChild(characterBio);
+
+        characterList.appendChild(characterDiv);
+
+        // use the image api to make a portrait for each character
+        // append it to the character div when it is ready
+
+        const getImage = async () => {
+            const data = await callImageApi({
+            "text":"a role playing portrait of " + character.bio,
+             "grid_size":"1",
+             "negative_prompt":"nude nudity, cropped, deformed, drawing, cartoon, grid, text, caption, playing card, trading card"
+            });
+            return data;
+        }
+        getImage().then(data => {
+            const characterImage = document.createElement("img");
+            characterImage.src = data.image_url;
+            characterImage.alt = character.name;
+            characterImage.width = 300;
+            characterImage.height = 300;
+            characterImage.className = "character-image";
+            characterDiv.appendChild(characterImage);
+
+        });
+    });
+}
+
+async function makeImagesForCharacters(){
+    // use the image api to make a portrait for each character
+    //
+}
+
+
+
+const chatHistory = [];
+
+async function nextGameStep(){
+    const systemPrompt = `You are a role-playing game taking place in "${chosenGameTitle}". At each step, describe what is happening in 1 to 3 sentences. Then give the player 4 options on how to proceed. One of the options should be logical, one cunning, one aggressive, and one completely ridiculous. Return the options as a list of strings. Start the game by describing who the player is and where they are, what they see.
+Also describe what the user sees in a sentence, this is the image caption.
+The output after each turn (including the starting turn) should be a JSON object with the keys: "description", "choices", "image caption".
+
+This is a list of other characters they might encounter during the game:
+`+JSON.stringify(characterData);
+
+
+    // deep copy the chat history because we're going to modify it before sending it to the server
+
+    const chatHistoryCopy = JSON.parse(JSON.stringify(chatHistory));
+
+    // if the length of the chat history is 0, then we're on the first turn, start it with this user message: "The game is starting. Respond only in JSON."
+
+    if(chatHistoryCopy.length === 0){
+        chatHistoryCopy.push({"role": "user", "content": "The game is starting. Respond only in JSON."});
+    }else{
+        // otherwise, we're on a subsequent turn, so append "Respond only in JSON." to the last message in the chat history.
+        chatHistoryCopy[chatHistoryCopy.length - 1].content += " One of the choices should be logical, one cunning, one aggressive, and one completely ridiculous. Respond only in JSON.";
+    }
+
+    const params = {
+        "chatHistory": [
+            {
+                "role": "system",
+                "content": systemPrompt
+            }, ...chatHistoryCopy
+        ],
+    };
+
+    console.log("sending: ",params);
+
+    const resp = await callTextApi(params);
+    console.log(resp);
+
+    const parsed = parseJSONWithInvalidText(resp);
+
+    // parsed has keys "description", "choices", "image caption"
+
+    // Populate the frontend with the new data:
+    //const image = document.querySelector(".image-container img");
+    //image.src = parsed['image caption'];
+    try{
+        renderImageForPrompt(parsed['image caption']);
+    }catch(e){
+        console.log("error generating image: ",e);
+    }
+
+    const caption = document.querySelector(".image-container .caption");
+    caption.textContent = parsed['description'];
+
+    // update all choice-btn elements with the new choices
+    const choiceBtns = document.querySelectorAll(".choice-btn");
+    for (let i = 0; i < choiceBtns.length; i++) {
+        choiceBtns[i].textContent = parsed['choices'][i];
+    }
+
+    // update the chat history, append the json as a string as assistant response
+    chatHistory.push({
+        "role": "assistant",
+        "content": JSON.stringify(parsed)
+    });
+    renderHistory();
+
+    return resp;
+
+}
+
+async function choiceButtonHandler(btn){
+    const choice = btn.textContent;
+    console.log("choice: ", choice);
+
+    // update the chat history
+    chatHistory.push({
+        "role": "user",
+        "content": `The player chooses: "${choice}". `
+    });
+    renderHistory();
+
+    // call the next game step
+    await progressBarFunctionWrapper(nextGameStep);
+}
+
+function renderHistory(){
+
+    // render chatHistory, given that it looks like this:
+    /*
+
+    [
+    {
+        "role": "assistant",
+        "content": "{\n  \"description\": \"You are an adventurer in the mystical land of Eldar, standing at the entrance of the Darklight Cavern. You are carrying a sword and shield, ready to face whatever awaits you.\",\n  \"choices\": [\n    \"Enter the cavern cautiously, keeping an eye out for traps.\",\n    \"Create a distraction outside the cavern to lure any possible enemies out.\",\n    \"Charge into the cavern with a battle cry, sword swinging.\",\n    \"Stand outside and yell for someone to bring you a sandwich.\"\n  ],\n  \"image caption\": \"The mouth of the Darklight Cavern looms before you, shrouded in darkness.\"\n}"
+    },
+    {
+        "role": "user",
+        "content": "The player chooses: Stand outside and yell for someone to bring you a sandwich."
+    },
+    {
+        "role": "assistant",
+        "content": "{\n  \"description\": \"Unsurprisingly, your sandwich plea goes unanswered. The only response you get is a faint echo from the depths of the cavern. You feel a little embarrassed, but also hungry.\",\n  \"choices\": [\n    \"Enter the cavern cautiously, keeping an eye out for traps.\",\n    \"Create a distraction outside the cavern to lure any possible enemies out.\",\n    \"Charge into the cavern with a battle cry, sword swinging.\",\n    \"Begin a lengthy one-person discussion about the philosophical implications of sandwiches in the universe.\"\n  ],\n  \"image caption\": \"You stand awkwardly at the entrance of the cavern, still hoping for a sandwich.\"\n}"
+    },
+
+    */
+
+    // Only keep the description from the assistant responses.
+
+    // Bold the user responses.
+
+    // Render the chat history in the chat-history div.
+
+    // clear the div first:
+    const chatHistoryDiv = document.getElementById("chat-history");
+    chatHistoryDiv.innerHTML = "";
+
+    //for (let i = 0; i < chatHistory.length; i++) {
+    // reverse the order so the most recent is at the bottom
+    for (let i = chatHistory.length-1; i >= 0; i--) {
+        const chatItem = chatHistory[i];
+        const chatItemDiv = document.createElement("div");
+        chatItemDiv.className = "chat-item";
+        if (chatItem.role === "user") {
+            chatItemDiv.className += " user";
+        }
+        const chatItemContent = document.createElement("div");
+        chatItemContent.className = "chat-item-content";
+        chatItemContent.textContent = chatItem.content;
+
+        // if the role is assistant, parse the content as json and only keep the description
+        if (chatItem.role === "assistant") {
+            const parsed = JSON.parse(chatItem.content);
+            chatItemContent.textContent = parsed['description'];
+        }
+
+        chatItemDiv.appendChild(chatItemContent);
+        const chatHistoryDiv = document.getElementById("chat-history");
+        chatHistoryDiv.appendChild(chatItemDiv);
+    }
+}
+
+
+
+async function callImageApi(params) {
+    const resp = await fetch('/image_api', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(params)
+    });
+    const data = await resp.json();
+    return data;
+}
+
+// call like await callImageApi({"text":"butter", "grid_size":"1"})
+// returns {
+//    "image_url": "https://api.deepai.org/job-view-file/7859c38a-f217-49ff-a20f-54874c8f158b/outputs/output.jpg"
+//}
+
+async function renderImageForPrompt(prompt){
+    // call the image api with the prompt
+    const params = {
+        "text": prompt,
+        "grid_size": "1"
+    };
+    const resp = await callImageApi(params);
+    console.log(resp);
+
+    // update the image in the frontend
+    const image = document.querySelector(".image-container img");
+    image.src = resp['image_url'];
+
+    // now upscale the image and show it
+    const upscaledImage = await callUpscaleApi({"image":resp['image_url']});
+    console.log("upscaled image: ", upscaledImage);
+    image.src = upscaledImage['image_url'];
+}
+
+
+async function callUpscaleApi(params) {
+    const resp = await fetch('/upscale_api', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(params)
+    });
+    const data = await resp.json();
+    return data;
+}
+
+function parseJSONWithInvalidText(jsonString) {
+  // if json is wrapped in "```", remove them from beginning and end
+    if (jsonString.startsWith('```') && jsonString.endsWith('```')) {
+        jsonString = jsonString.slice(3, -3);
+    }
+
+  let json = null;
+
+  while (jsonString.length > 0) {
+    try {
+      json = JSON.parse(jsonString);
+      break;
+    } catch (e) {
+      jsonString = jsonString.slice(0, -1);
+    }
+  }
+
+  if (json === null) {
+    throw new Error('Failed to parse JSON');
+  } else {
+    return json;
+  }
+}
+
+function startGame(){
+    // clear the chat history
+    chatHistory.length = 0;
+    renderHistory();
+
+    // clear the image
+    const image = document.querySelector(".image-container img");
+    image.src = "https://via.placeholder.com/300";
+
+    // clear the caption
+    const caption = document.querySelector(".image-container .caption");
+    caption.textContent = " ";
+
+    // clear the choices
+    const choiceBtns = document.querySelectorAll(".choice-btn");
+    for (let i = 0; i < choiceBtns.length; i++) {
+        choiceBtns[i].textContent = "...";
+    }
+
+    // call the next game step
+    progressBarFunctionWrapper(nextGameStep);
+    loadCharacters();
+}
+
+
+// Progress bar stuff
+
+var currentProgressTime = 0;
+var currentProgressTimer = null;
+var currentlyRunningModel = false;
+const model_expected_runtime = 20;
+function cancelProgressBar(){
+    progressBar = document.getElementById('progressBar');
+    progressBar.style.width = '0%';
+    currentProgressTime = 0;
+    if(currentProgressTimer){
+        window.clearInterval(currentProgressTimer);
+        currentProgressTimer = null;
+    }
+}
+
+// This is a function that wraps your target async function and handles the progress bar...
+
+async function progressBarFunctionWrapper(functionToWrap){
+    var expected_time = model_expected_runtime;
+    if(! expected_time){
+        expected_time = 10;
+    }
+
+    console.log('start progress bar');
+    currentlyRunningModel = true;
+    progressBar = document.getElementById('progressBar');
+    cancelProgressBar();
+    try{
+        var fps = 60;
+
+        currentProgressTimer = window.setInterval(function(){
+            currentProgressTime++;
+            var progress_pct = Math.tanh((currentProgressTime/fps)/expected_time)*100;
+            progressBar.style.width = progress_pct+'%';
+        }, Math.round(1000/fps));
+
+        return await functionToWrap();
+    }catch(e){
+        console.log(e);
+    }finally{
+        console.log('end progress bar');
+        currentlyRunningModel = false;
+
+        cancelProgressBar();
+    }
+};
+
+// End progress bar stuff
+
+
+const gameTitles = [
+    "Inception",
+    "The Lord of the Rings Trilogy",
+    "The Matrix Series",
+    "Harry Potter Series",
+    "The Godfather",
+    "Pirates of the Caribbean",
+    "Star Wars Franchise",
+    "Jurassic Park",
+    "The Chronicles of Narnia",
+    "The Hunger Games Series",
+    "The Silence of the Lambs",
+    "Indiana Jones Series",
+    "The Wizard of Oz",
+    "Alice in Wonderland",
+    "The Avengers Series",
+    "Blade Runner",
+    "The Dark Tower Series",
+    "Ender's Game"
+];
+
+const gameTitleCharacters = {
+    "Inception": [
+        {
+            "name": "Ethan Ferguson",
+            "bio": "A skilled thief working to extract valuable information from targets' dreams."
+        },
+        {
+            "name": "Nina Patel",
+            "bio": "A psychologist specializing in dream therapy, but also willing to manipulate people's subconscious for profit."
+        },
+        {
+            "name": "Henry Park",
+            "bio": "An architect with the rare ability to design dreamscapes that are both stable and immersive."
+        },
+        {
+            "name": "Maeve Donovan",
+            "bio": "An experienced forger capable of creating convincing dream identities or modifications to cover her tracks."
+        },
+        {
+            "name": "Jared Black",
+            "bio": "A physicist who has developed a machine that can enter and exit dreams, but at a dangerous cost to the user's sanity."
+        }
+    ],
+    "The Lord of the Rings Trilogy": [
+        {
+            "name": "Gimli",
+            "bio": "A dwarf warrior on a quest to reclaim his ancient homeland and honor his family's legacy."
+        },
+        {
+            "name": "Eowyn",
+            "bio": "A shieldmaiden of Rohan who disguises herself as a man in order to fight for her people."
+        },
+        {
+            "name": "Galadriel",
+            "bio": "An elven queen with great power and wisdom who helps guide the Fellowship on their journey."
+        },
+        {
+            "name": "Bilbo Baggins",
+            "bio": "A hobbit who found the Ring many years ago and is now passing it on to Frodo to destroy it."
+        },
+        {
+            "name": "Saruman",
+            "bio": "Once a wise and powerful wizard, now corrupted by his lust for power and seeking to use the Ring for his own gain."
+        }
+    ],
+    "The Matrix Series": [
+        {
+            "name": "Trinity",
+            "bio": "A skilled hacker turned freedom fighter, Trinity fights to overthrow the Matrix and bring humanity back to reality."
+        },
+        {
+            "name": "Morpheus",
+            "bio": "A wise leader of the resistance, Morpheus is dedicated to saving as many humans as possible from the Matrix's grasp."
+        },
+        {
+            "name": "Neo",
+            "bio": "A young man who learns the truth about the Matrix, Neo becomes the chosen one who can bring about its downfall."
+        },
+        {
+            "name": "Agent Smith",
+            "bio": "An unstoppable rogue program tasked with maintaining order in the Matrix, Agent Smith will stop at nothing to eliminate those who oppose it."
+        },
+        {
+            "name": "Cypher",
+            "bio": "A disillusioned member of the resistance, Cypher is willing to betray his comrades in exchange for a return to the comfortable falsehood of the Matrix."
+        }
+    ],
+    "Harry Potter Series": [
+        {
+            "name": "Hermione Granger",
+            "bio": "The brightest witch of her age, Hermione is fiercely loyal and dedicated to her friends and the fight against Voldemort."
+        },
+        {
+            "name": "Draco Malfoy",
+            "bio": "Born into a pure-blood family, Draco is cunning and arrogant, but ultimately struggles with his loyalty to his family and his own conscience."
+        },
+        {
+            "name": "Neville Longbottom",
+            "bio": "Initially clumsy and forgetful, Neville grows into a brave and capable wizard who overcomes his fears and fights against the Death Eaters."
+        },
+        {
+            "name": "Luna Lovegood",
+            "bio": "A free-spirited and unconventional Ravenclaw, Luna is often teased by her classmates but ultimately proves to be a loyal and valuable ally to the Order of the Phoenix."
+        },
+        {
+            "name": "Severus Snape",
+            "bio": "A complex and mysterious Hogwarts professor, Snape is both feared and respected by his students and ultimately proves his loyalty to Dumbledore and the fight against Voldemort."
+        }
+    ],
+    "The Godfather": [
+        {
+            "name": "Salvatore Santoro",
+            "bio": "A feared enforcer for the Santoro crime family, Salvatore earned his reputation through merciless acts of violence."
+        },
+        {
+            "name": "Francesca Rossi",
+            "bio": "The shrewd and calculating consigliere for the Rossi clan, Francesca's intelligence and cunning make her a valuable asset to the family."
+        },
+        {
+            "name": "Johnny Fontaine",
+            "bio": "A beloved crooner and rising star in the entertainment industry, Johnny is also deeply indebted to the Corleone family and their favors can come at a steep price."
+        },
+        {
+            "name": "Luca Brasi",
+            "bio": "The imposing and legendary bodyguard for Vito Corleone, Luca's unwavering loyalty and feared reputation make him both a respected ally and a formidable adversary."
+        },
+        {
+            "name": "Vincent Mancini",
+            "bio": "The impetuous and hot-headed nephew of Michael Corleone, Vincent's ambition and willingness to take risks may lead him down a dangerous path in the world of organized crime."
+        }
+    ],
+    "Pirates of the Caribbean": [
+        {
+            "name": "Captain Jack Sparrow",
+            "bio": "A witty pirate captain who always manages to get out of trouble."
+        },
+        {
+            "name": "Elizabeth Swann",
+            "bio": "A brave and cunning pirate who knows her way around a sword."
+        },
+        {
+            "name": "Hector Barbossa",
+            "bio": "A seasoned pirate who will stop at nothing to achieve his goals."
+        },
+        {
+            "name": "Joshamee Gibbs",
+            "bio": "A loyal member of Jack Sparrow's crew, known for his expertise in naval warfare."
+        },
+        {
+            "name": "Davy Jones",
+            "bio": "The immortal ruler of the ocean depths, with a crew of cursed sailors bound to his service."
+        }
+    ],
+    "Star Wars Franchise": [
+        {
+            "name": "Kyrali",
+            "bio": "A fierce and cunning Twi'lek assassin with a heart of ice and a quick trigger finger."
+        },
+        {
+            "name": "Rydar",
+            "bio": "A wise and powerful Jedi Master with a strong connection to the Force and a desire to bring peace to the galaxy."
+        },
+        {
+            "name": "Drog",
+            "bio": "A relentless bounty hunter with a reputation for getting the job done, no matter the cost."
+        },
+        {
+            "name": "Ghin",
+            "bio": "A charismatic and daring smuggler with a knack for staying one step ahead of the law."
+        },
+        {
+            "name": "Xariana",
+            "bio": "A skilled and deadly Mandalorian warrior with a fierce loyalty to her clan and a deep hatred for the Jedi."
+        }
+    ],
+    "Jurassic Park": [
+        {
+            "name": "Dr. Julia Michaels",
+            "bio": "A skilled geneticist who specializes in cloning dinosaurs and is tasked with creating new breeds for the park."
+        },
+        {
+            "name": "Captain Diego Rodriguez",
+            "bio": "The leader of the park's security team, who must navigate the dangers of the jungle while protecting guests from prehistoric predators."
+        },
+        {
+            "name": "Oliver Graham",
+            "bio": "A thrill-seeking adventurer who came to Jurassic Park to capture rare footage of dinosaurs in the wild."
+        },
+        {
+            "name": "Dr. Liang Wei",
+            "bio": "A strict administrator who oversees the park's day-to-day operations and is obsessed with maintaining its reputation."
+        },
+        {
+            "name": "Samuel Barnes",
+            "bio": "A veteran safari guide hired by the park to lead expeditions through the dinosaur-infested wilderness."
+        }
+    ],
+    "The Chronicles of Narnia": [
+        {
+            "name": "Lucy",
+            "bio": "A kind and curious girl who discovered Narnia through a wardrobe."
+        },
+        {
+            "name": "Aslan",
+            "bio": "A majestic lion who serves as the true king of Narnia."
+        },
+        {
+            "name": "Mr. Tumnus",
+            "bio": "A kindly faun who helped Lucy find her way in Narnia."
+        },
+        {
+            "name": "Jadis",
+            "bio": "A powerful and evil sorceress who ruled over Narnia with an iron fist."
+        },
+        {
+            "name": "Edmund",
+            "bio": "A initially selfish and manipulative boy who eventually became a loyal friend to the other inhabitants of Narnia."
+        }
+    ],
+    "The Hunger Games Series": [
+        {
+            "name": "Katniss Everdeen",
+            "bio": "A skilled archer from District 12, known for her determination and bravery in the face of the Capitol's cruelty."
+        },
+        {
+            "name": "Peeta Mellark",
+            "bio": "A selfless baker's son from District 12, who uses his charm and charisma to survive in the Hunger Games."
+        },
+        {
+            "name": "Finnick Odair",
+            "bio": "A handsome and skillful tribute from District 4, who uses his trident to fight in the Hunger Games and later becomes an ally to Katniss."
+        },
+        {
+            "name": "Johanna Mason",
+            "bio": "A fierce and cunning tribute from District 7, known for her ability to use her surroundings as weapons and her sarcastic wit."
+        },
+        {
+            "name": "Beetee Latier",
+            "bio": "A brilliant inventor from District 3, who uses his knowledge of technology to create traps and weapons to aid him in the Hunger Games."
+        }
+    ],
+    "The Silence of the Lambs": [
+        {
+            "name": "Dr. Hannibal Lecter",
+            "bio": "a brilliant and manipulative psychiatrist serving life in prison for his gruesome murders, but still managing to maintain an air of elegance and sophistication."
+        },
+        {
+            "name": "Clarice Starling",
+            "bio": "an FBI trainee with a troubled past and a sharp mind, tasked with interviewing Dr. Lecter for insight into a serial killer on the loose."
+        },
+        {
+            "name": "Buffalo Bill",
+            "bio": "an elusive and sadistic serial killer who skins his victims, leaving the FBI desperate to catch him before he kills again."
+        },
+        {
+            "name": "Jack Crawford",
+            "bio": "an experienced FBI agent who recruits Clarice Starling and leads the case against Buffalo Bill."
+        },
+        {
+            "name": "Dr. Frederick Chilton",
+            "bio": "the smarmy and arrogant director of the psychiatric hospital where Dr. Lecter is held, who constantly seeks to exploit his captive's notoriety for his own gain."
+        }
+    ],
+    "Indiana Jones Series": [
+        {
+            "name": "Dr. Marcus Brody",
+            "bio": "Curator of the National Museum and friend of Indiana Jones, who often seeks his advice on archaeological matters."
+        },
+        {
+            "name": "Ren\u00e9 Belloq",
+            "bio": "French archaeologist and main rival of Indiana Jones, who often steals artifacts from Jones and works for the Nazis in Raiders of the Lost Ark."
+        },
+        {
+            "name": "Sallah",
+            "bio": "Egyptian digger and friend of Indiana Jones, who helps him in his quest to find the Ark of the Covenant and the Holy Grail."
+        },
+        {
+            "name": "Elsa Schneider",
+            "bio": "Austrian art historian and Indiana Jones' love interest in Indiana Jones and the Last Crusade, who later turns out to be a Nazi spy."
+        },
+        {
+            "name": "Toht",
+            "bio": "Chief henchman of Ren\u00e9 Belloq and the Nazi party, who is killed by the power of the Ark of the Covenant in Raiders of the Lost Ark."
+        }
+    ],
+    "The Wizard of Oz": [
+        {
+            "name": "Dorothy",
+            "bio": "A young girl from Kansas who was transported to the magical land of Oz."
+        },
+        {
+            "name": "Scarecrow",
+            "bio": "A farmer made entirely of straw, brought to life by the Wizard of Oz."
+        },
+        {
+            "name": "Tin Man",
+            "bio": "A man made of tin who seeks a heart so he can feel emotions again."
+        },
+        {
+            "name": "Cowardly Lion",
+            "bio": "A lion who lacks courage, accompanying Dorothy on her journey to seek help from the Wizard of Oz."
+        },
+        {
+            "name": "Wicked Witch of the West",
+            "bio": "An evil witch who seeks to reclaim her sister's ruby slippers and rule over Oz with an iron fist."
+        }
+    ],
+    "Alice in Wonderland": [
+        {
+            "name": "Cheshire Cat",
+            "bio": "A mischievous feline with a constant grin, always leading Alice down the craziest paths of Wonderland."
+        },
+        {
+            "name": "Queen of Hearts",
+            "bio": "A tyrannical monarch who rules Wonderland with an iron fist, always shouting 'Off with their heads!'"
+        },
+        {
+            "name": "Mad Hatter",
+            "bio": "A wacky and unpredictable host who invites Alice to the craziest tea party of her life."
+        },
+        {
+            "name": "White Rabbit",
+            "bio": "A frantic and skittish messenger who is always running late and trying to evade the wrath of the Queen."
+        },
+        {
+            "name": "Caterpillar",
+            "bio": "A wise and enigmatic creature who offers Alice cryptic advice and smokes a hookah pipe all day."
+        }
+    ],
+    "The Avengers Series": [
+        {
+            "name": "Steve Rogers",
+            "bio": "A super-soldier from the 1940s who was thawed out in present day and now leads the Avengers as Captain America."
+        },
+        {
+            "name": "Tony Stark",
+            "bio": "A billionaire genius playboy philanthropist who suits up as Iron Man to fight alongside the Avengers."
+        },
+        {
+            "name": "Thor Odinson",
+            "bio": "The prince of Asgard who wields the mighty Mjolnir and uses his godly powers to protect the realms."
+        },
+        {
+            "name": "Natasha Romanoff",
+            "bio": "A former KGB agent turned S.H.I.E.L.D. agent and master spy who fights as the Black Widow."
+        },
+        {
+            "name": "Clint Barton",
+            "bio": "A former circus performer and S.H.I.E.L.D. agent who fights as the skilled marksman, Hawkeye."
+        }
+    ],
+    "Blade Runner": [
+        {
+            "name": "Raven Black",
+            "bio": "Ex-Blade Runner with a chip on her shoulder, now working as a mercenary."
+        },
+        {
+            "name": "Jack Frost",
+            "bio": "Engineer turned smuggler, known for his skill in fooling security systems."
+        },
+        {
+            "name": "Amira Hauser",
+            "bio": "Corrupt corporate executive with a taste for dangerous pleasures."
+        },
+        {
+            "name": "Maxine Fox",
+            "bio": "Streetwise prostitute who moonlights as a data hacker."
+        },
+        {
+            "name": "Kane Zephyr",
+            "bio": "Bounty hunter who operates in the shadows and has a reputation for taking down replicants with ease."
+        }
+    ],
+    "The Dark Tower Series": [
+        {
+            "name": "Roland Deschain",
+            "bio": "The last Gunslinger, on a quest to reach the Dark Tower and restore order to his world."
+        },
+        {
+            "name": "Eddie Dean",
+            "bio": "A former drug addict from New York, skilled at picking locks and adapting to new environments."
+        },
+        {
+            "name": "Susannah Dean",
+            "bio": "A wheelchair-bound woman with multiple personalities, who can call upon the strength of a warrior when necessary."
+        },
+        {
+            "name": "Jake Chambers",
+            "bio": "A young boy from our world who has been drawn into Roland's quest and possesses a powerful psychic ability."
+        },
+        {
+            "name": "Oy",
+            "bio": "A brave and loyal billy-bumbler who has become an invaluable companion to Roland and his ka-tet."
+        }
+    ],
+    "Ender's Game": [
+        {
+            "name": "Dink Meeker",
+            "bio": "A prodigy who made it to the top of Battle School at a young age, but resents his handlers and knows he could do more with his intellect."
+        },
+        {
+            "name": "Petra Arkanian",
+            "bio": "A brilliant and accomplished Battle School recruit who has a gift for strategy and tactics, but struggles with interpersonal relationships."
+        },
+        {
+            "name": "Rose the Nose",
+            "bio": "A clever and resourceful street urchin who has survived on the mean streets of Rotterdam by her wits and her uncanny sense of smell."
+        },
+        {
+            "name": "Bonzo Madrid",
+            "bio": "A fierce and ruthless commander at Battle School who dominates his subordinates with fear and intimidation."
+        },
+        {
+            "name": "Alai",
+            "bio": "A thoughtful and charismatic recruit who quickly forms close bonds with fellow students in Battle School and proves himself to be an invaluable ally in combat simulations."
+        }
+    ]
+};
+
+// on start, put the game titles into the gameTitleSelector area with text and image buttons.
+function loadGameTitles(){
+    const gameTitleSelector = document.querySelector(".gameTitleSelector");
+    for (let i = 0; i < gameTitles.length; i++) {
+        const gameTitle = gameTitles[i];
+        const gameTitleDiv = document.createElement("div");
+        gameTitleDiv.className = "game-title";
+        const gameTitleText = document.createElement("div");
+        gameTitleText.className = "text";
+        gameTitleText.textContent = gameTitle;
+        gameTitleDiv.appendChild(gameTitleText);
+
+        gameTitleDiv.addEventListener("click", function(){
+            // when the game title is clicked, start the game
+            //
+            chosenGameTitle = gameTitle;
+
+            // and delete the game title selector
+            gameTitleSelector.remove();
+
+            // and put the game image in the image-container
+            const image = document.querySelector(".image-container img");
+            image.src = "/static/games/" + gameTitle + ".jpg";
+
+            // and set the <h1> to the game title
+            const gameTitleH1 = document.querySelector("h1");
+            gameTitleH1.textContent = gameTitle;
+
+            // set characterData to the characters for the chosen game
+            characterData = gameTitleCharacters[gameTitle];
+
+            startGame();
+
+        });
+        // add the image to the div
+        const gameTitleImg = document.createElement("img");
+        gameTitleImg.src = "/static/games/" + gameTitle + ".jpg";
+        gameTitleDiv.appendChild(gameTitleImg);
+
+        gameTitleSelector.appendChild(gameTitleDiv);
+    }
+}
+
+loadGameTitles();
+
+
+</script>
+
+
+
+</body>
+</html>

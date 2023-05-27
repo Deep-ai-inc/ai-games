@@ -1,0 +1,22 @@
+[ 
+    {
+        "name": "Cheshire Cat",
+        "bio": "A mischievous feline with a constant grin, always leading Alice down the craziest paths of Wonderland."
+    },
+    {
+        "name": "Queen of Hearts",
+        "bio": "A tyrannical monarch who rules Wonderland with an iron fist, always shouting 'Off with their heads!'"
+    },
+    {
+        "name": "Mad Hatter",
+        "bio": "A wacky and unpredictable host who invites Alice to the craziest tea party of her life."
+    },
+    {
+        "name": "White Rabbit",
+        "bio": "A frantic and skittish messenger who is always running late and trying to evade the wrath of the Queen."
+    },
+    {
+        "name": "Caterpillar",
+        "bio": "A wise and enigmatic creature who offers Alice cryptic advice and smokes a hookah pipe all day." 
+    }
+]

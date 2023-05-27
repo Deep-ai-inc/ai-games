@@ -165,17 +165,78 @@ gpt-3.5-turbo	$0.002 / 1K tokens
 
 ---
 
+# Generative AI use cases in Games
+
+* Dynamic storytelling
+* Generate character art
+* Generate music
+* Generate NPC behavior and dialogue
+* Write code for your game (eg, Copilot, GPT4)
+
+---
+
 # Let's build a game
 
 We'll use both image and text generation to build a role playing game.
 
 Let's see how much of the game can be built with AI.
 
+Tools Used:
+
+* DeepAI API (for text-to-image)
+* OpenAI API (for text generation)
+* Python/Flask (for web app)
+* HTML/CSS/JS (for web app)
+* Replit (for sharing demo)
+
+---
+
 ### Prompt engineering
 
     write 1-sentence bio's of 5 random characters in a role-playing game.
     the characters should have a name.
     respond as a JSON array with keys "name", "bio".
+
+
+
+    [
+      {"name": "Aelar Rivenhart", "bio": "A master archer and Elf princess who takes command of the wind and strikes every weakness of her enemies."},
+      {"name": "Cynthia Brighthelm", "bio": "A quirky Human mage with a happy demeanor, turning her adversaries' spells against them."},
+      {"name": "Argis the Bold", "bio": "King of the Dwarves, Argis fights with honor and commands his people with his indestructible hammer."},
+      {"name": "Xirala Shadowdancer", "bio": "A sultry Tiefling rogue who can shift between the shadows, stealing without a trace."},
+      {"name": "Baelgor Earthsplitter", "bio": "A wise Gnome druid with a deep connection to nature, wielding the earth itself as a weapon."},
+      {"name": "Elara Nightstar", "bio": "A celestial Aasimar Cleric called to heal and protect the faithful, her radiance blinding enemies."},
+      {"name": "Fizzlewick McFlambe", "bio": "An impulsive Halfling pyromancer who sets fire to the battlefield, leaving a trail of ashes in his wake."},
+    ]`;
+
+
+---
+
+
+write a list of 20 varied and popular movies and books that would form
+an interesting base for a turn based role playing game, starting with "The Shining" by stanley kubrick.
+
+1. "The Shining" by Stanley Kubrick
+2. "Inception" directed by Christopher Nolan
+3. "The Lord of the Rings" trilogy by J.R.R. Tolkien
+4. "The Matrix" series directed by The Wachowskis
+5. "Harry Potter" series by J.K. Rowling
+6. "The Godfather" by Mario Puzo
+7. "Pirates of the Caribbean" directed by Gore Verbinski
+8. "Star Wars" franchise created by George Lucas
+9. "Jurassic Park" by Michael Crichton
+10. "The Chronicles of Narnia" by C.S. Lewis
+11. "The Hunger Games" series by Suzanne Collins
+12. "The Silence of the Lambs" by Thomas Harris
+13. "Fight Club" by Chuck Palahniuk
+14. "Indiana Jones" series directed by Steven Spielberg
+15. "The Wizard of Oz" by L. Frank Baum
+16. "Alice in Wonderland" by Lewis Carroll
+17. "The Avengers" series created by Marvel Studios
+18. "Blade Runner" directed by Ridley Scott
+19. "The Dark Tower" series by Stephen King
+20. "Ender's Game" by Orson Scott Card
+
 
     </textarea>
     <script src="https://remarkjs.com/downloads/remark-latest.min.js">

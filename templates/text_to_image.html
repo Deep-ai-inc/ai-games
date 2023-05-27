@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Text To Image</title>
+</head>
+<body>
+
+<!--Text to image demo with a textbox, calls the api, and shows the image -->
+
+<h1>Text To Image</h1>
+
+<textarea id="text" rows="10" cols="50"></textarea>
+<button onclick="generateImage()">Generate</button>
+
+<div id="result">
+    <img src="" alt="Image">
+</div>
+
+
+</body>
+
+<script>
+
+async function callImageApi(params) {
+    const resp = await fetch('/image_api', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(params)
+    });
+    const data = await resp.json();
+    return data;
+}
+
+function generateImage() {
+    var text = document.getElementById("text").value;
+    var params = {"text": text, "grid_size": "1"};
+    callImageApi(params).then(function(response){
+        console.log("response: ", response);
+        // update the image in the frontend
+        const image = document.querySelector("img");
+        image.src = response['image_url'];
+    });
+}
+
+</script>
+</html>

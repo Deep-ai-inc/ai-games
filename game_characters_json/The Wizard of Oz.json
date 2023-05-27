@@ -1,0 +1,22 @@
+[
+  {
+    "name": "Dorothy",
+    "bio": "A young girl from Kansas who was transported to the magical land of Oz."
+  },
+  {
+    "name": "Scarecrow",
+    "bio": "A farmer made entirely of straw, brought to life by the Wizard of Oz."
+  },
+  {
+    "name": "Tin Man",
+    "bio": "A man made of tin who seeks a heart so he can feel emotions again."
+  },
+  {
+    "name": "Cowardly Lion",
+    "bio": "A lion who lacks courage, accompanying Dorothy on her journey to seek help from the Wizard of Oz."
+  },
+  {
+    "name": "Wicked Witch of the West",
+    "bio": "An evil witch who seeks to reclaim her sister's ruby slippers and rule over Oz with an iron fist."
+  }
+]

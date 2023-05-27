@@ -21,11 +21,32 @@ print(DEEPAI_API_KEY)
 # define app:
 app = Flask(__name__, template_folder='./templates')
 
+# serve images from the /images directory
+app.static_folder = 'images'
 
 # route to the main page
 @app.route('/')
 def main():
     return render_template('index.html')
+
+
+# route for the game page:
+@app.route('/game')
+def game():
+    return render_template('game.html')
+
+
+# route for text to image page:
+@app.route('/text_to_image')
+def text_to_image():
+    return render_template('text_to_image.html')
+
+
+# route for text generation page:
+@app.route('/text_generation')
+def text_generation():
+    return render_template('text_generation.html')
+
 
 
 # route that takes in JSON (post) and returns JSON:
@@ -62,6 +83,7 @@ def generate_response(requests_resp):
 
     return total_response
 
+
 @app.route('/text_api', methods=['POST'])
 def text_api():
     # get the JSON data from the request
@@ -70,7 +92,7 @@ def text_api():
     # get the text from the JSON
     chatHistory = data['chatHistory']
 
-    stream=True
+    stream = True
     resp = requests.post(
         "https://api.openai.com/v1/chat/completions",
         headers={
@@ -95,9 +117,8 @@ def text_api():
 
         # return resp.content as a streaming response
 
-
         return generate_response(resp), {"Content-Type": "text/plain"}
-        #return jsonify({'text': total_response})
+        # return jsonify({'text': total_response})
 
     else:
         print(resp.content)
@@ -139,6 +160,7 @@ def image_api():
     # return the response as JSON
     return jsonify({'image_url': image_url})
 
+
 # upscale image using deepai torch-srgan api
 @app.post('/upscale_api')
 def upscale_api():
@@ -165,9 +187,9 @@ def upscale_api():
     # return the response as JSON
     return jsonify({'image_url': image_url})
 
+
 # Call like this:
 # curl -X POST -d '{"chatHistory":[{"role": "user", "content":"write haiku about dogs"}]}' -H 'Content-Type: application/json' http://127.0.0.1:5432/text_api
 # run the app
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=5432)
-

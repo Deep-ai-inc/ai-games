@@ -1,0 +1,398 @@
+{
+    "Inception": [
+        {
+            "name": "Ethan Ferguson",
+            "bio": "A skilled thief working to extract valuable information from targets' dreams."
+        },
+        {
+            "name": "Nina Patel",
+            "bio": "A psychologist specializing in dream therapy, but also willing to manipulate people's subconscious for profit."
+        },
+        {
+            "name": "Henry Park",
+            "bio": "An architect with the rare ability to design dreamscapes that are both stable and immersive."
+        },
+        {
+            "name": "Maeve Donovan",
+            "bio": "An experienced forger capable of creating convincing dream identities or modifications to cover her tracks."
+        },
+        {
+            "name": "Jared Black",
+            "bio": "A physicist who has developed a machine that can enter and exit dreams, but at a dangerous cost to the user's sanity."
+        }
+    ],
+    "The Lord of the Rings Trilogy": [
+        {
+            "name": "Gimli",
+            "bio": "A dwarf warrior on a quest to reclaim his ancient homeland and honor his family's legacy."
+        },
+        {
+            "name": "Eowyn",
+            "bio": "A shieldmaiden of Rohan who disguises herself as a man in order to fight for her people."
+        },
+        {
+            "name": "Galadriel",
+            "bio": "An elven queen with great power and wisdom who helps guide the Fellowship on their journey."
+        },
+        {
+            "name": "Bilbo Baggins",
+            "bio": "A hobbit who found the Ring many years ago and is now passing it on to Frodo to destroy it."
+        },
+        {
+            "name": "Saruman",
+            "bio": "Once a wise and powerful wizard, now corrupted by his lust for power and seeking to use the Ring for his own gain."
+        }
+    ],
+    "The Matrix Series": [
+        {
+            "name": "Trinity",
+            "bio": "A skilled hacker turned freedom fighter, Trinity fights to overthrow the Matrix and bring humanity back to reality."
+        },
+        {
+            "name": "Morpheus",
+            "bio": "A wise leader of the resistance, Morpheus is dedicated to saving as many humans as possible from the Matrix's grasp."
+        },
+        {
+            "name": "Neo",
+            "bio": "A young man who learns the truth about the Matrix, Neo becomes the chosen one who can bring about its downfall."
+        },
+        {
+            "name": "Agent Smith",
+            "bio": "An unstoppable rogue program tasked with maintaining order in the Matrix, Agent Smith will stop at nothing to eliminate those who oppose it."
+        },
+        {
+            "name": "Cypher",
+            "bio": "A disillusioned member of the resistance, Cypher is willing to betray his comrades in exchange for a return to the comfortable falsehood of the Matrix."
+        }
+    ],
+    "Harry Potter Series": [
+        {
+            "name": "Hermione Granger",
+            "bio": "The brightest witch of her age, Hermione is fiercely loyal and dedicated to her friends and the fight against Voldemort."
+        },
+        {
+            "name": "Draco Malfoy",
+            "bio": "Born into a pure-blood family, Draco is cunning and arrogant, but ultimately struggles with his loyalty to his family and his own conscience."
+        },
+        {
+            "name": "Neville Longbottom",
+            "bio": "Initially clumsy and forgetful, Neville grows into a brave and capable wizard who overcomes his fears and fights against the Death Eaters."
+        },
+        {
+            "name": "Luna Lovegood",
+            "bio": "A free-spirited and unconventional Ravenclaw, Luna is often teased by her classmates but ultimately proves to be a loyal and valuable ally to the Order of the Phoenix."
+        },
+        {
+            "name": "Severus Snape",
+            "bio": "A complex and mysterious Hogwarts professor, Snape is both feared and respected by his students and ultimately proves his loyalty to Dumbledore and the fight against Voldemort."
+        }
+    ],
+    "The Godfather": [
+        {
+            "name": "Salvatore Santoro",
+            "bio": "A feared enforcer for the Santoro crime family, Salvatore earned his reputation through merciless acts of violence."
+        },
+        {
+            "name": "Francesca Rossi",
+            "bio": "The shrewd and calculating consigliere for the Rossi clan, Francesca's intelligence and cunning make her a valuable asset to the family."
+        },
+        {
+            "name": "Johnny Fontaine",
+            "bio": "A beloved crooner and rising star in the entertainment industry, Johnny is also deeply indebted to the Corleone family and their favors can come at a steep price."
+        },
+        {
+            "name": "Luca Brasi",
+            "bio": "The imposing and legendary bodyguard for Vito Corleone, Luca's unwavering loyalty and feared reputation make him both a respected ally and a formidable adversary."
+        },
+        {
+            "name": "Vincent Mancini",
+            "bio": "The impetuous and hot-headed nephew of Michael Corleone, Vincent's ambition and willingness to take risks may lead him down a dangerous path in the world of organized crime."
+        }
+    ],
+    "Pirates of the Caribbean": [
+        {
+            "name": "Captain Jack Sparrow",
+            "bio": "A witty pirate captain who always manages to get out of trouble."
+        },
+        {
+            "name": "Elizabeth Swann",
+            "bio": "A brave and cunning pirate who knows her way around a sword."
+        },
+        {
+            "name": "Hector Barbossa",
+            "bio": "A seasoned pirate who will stop at nothing to achieve his goals."
+        },
+        {
+            "name": "Joshamee Gibbs",
+            "bio": "A loyal member of Jack Sparrow's crew, known for his expertise in naval warfare."
+        },
+        {
+            "name": "Davy Jones",
+            "bio": "The immortal ruler of the ocean depths, with a crew of cursed sailors bound to his service."
+        }
+    ],
+    "Star Wars Franchise": [
+        {
+            "name": "Kyrali",
+            "bio": "A fierce and cunning Twi'lek assassin with a heart of ice and a quick trigger finger."
+        },
+        {
+            "name": "Rydar",
+            "bio": "A wise and powerful Jedi Master with a strong connection to the Force and a desire to bring peace to the galaxy."
+        },
+        {
+            "name": "Drog",
+            "bio": "A relentless bounty hunter with a reputation for getting the job done, no matter the cost."
+        },
+        {
+            "name": "Ghin",
+            "bio": "A charismatic and daring smuggler with a knack for staying one step ahead of the law."
+        },
+        {
+            "name": "Xariana",
+            "bio": "A skilled and deadly Mandalorian warrior with a fierce loyalty to her clan and a deep hatred for the Jedi."
+        }
+    ],
+    "Jurassic Park": [
+        {
+            "name": "Dr. Julia Michaels",
+            "bio": "A skilled geneticist who specializes in cloning dinosaurs and is tasked with creating new breeds for the park."
+        },
+        {
+            "name": "Captain Diego Rodriguez",
+            "bio": "The leader of the park's security team, who must navigate the dangers of the jungle while protecting guests from prehistoric predators."
+        },
+        {
+            "name": "Oliver Graham",
+            "bio": "A thrill-seeking adventurer who came to Jurassic Park to capture rare footage of dinosaurs in the wild."
+        },
+        {
+            "name": "Dr. Liang Wei",
+            "bio": "A strict administrator who oversees the park's day-to-day operations and is obsessed with maintaining its reputation."
+        },
+        {
+            "name": "Samuel Barnes",
+            "bio": "A veteran safari guide hired by the park to lead expeditions through the dinosaur-infested wilderness."
+        }
+    ],
+    "The Chronicles of Narnia": [
+        {
+            "name": "Lucy",
+            "bio": "A kind and curious girl who discovered Narnia through a wardrobe."
+        },
+        {
+            "name": "Aslan",
+            "bio": "A majestic lion who serves as the true king of Narnia."
+        },
+        {
+            "name": "Mr. Tumnus",
+            "bio": "A kindly faun who helped Lucy find her way in Narnia."
+        },
+        {
+            "name": "Jadis",
+            "bio": "A powerful and evil sorceress who ruled over Narnia with an iron fist."
+        },
+        {
+            "name": "Edmund",
+            "bio": "A initially selfish and manipulative boy who eventually became a loyal friend to the other inhabitants of Narnia."
+        }
+    ],
+    "The Hunger Games Series": [
+        {
+            "name": "Katniss Everdeen",
+            "bio": "A skilled archer from District 12, known for her determination and bravery in the face of the Capitol's cruelty."
+        },
+        {
+            "name": "Peeta Mellark",
+            "bio": "A selfless baker's son from District 12, who uses his charm and charisma to survive in the Hunger Games."
+        },
+        {
+            "name": "Finnick Odair",
+            "bio": "A handsome and skillful tribute from District 4, who uses his trident to fight in the Hunger Games and later becomes an ally to Katniss."
+        },
+        {
+            "name": "Johanna Mason",
+            "bio": "A fierce and cunning tribute from District 7, known for her ability to use her surroundings as weapons and her sarcastic wit."
+        },
+        {
+            "name": "Beetee Latier",
+            "bio": "A brilliant inventor from District 3, who uses his knowledge of technology to create traps and weapons to aid him in the Hunger Games."
+        }
+    ],
+    "The Silence of the Lambs": [
+        {
+            "name": "Dr. Hannibal Lecter",
+            "bio": "a brilliant and manipulative psychiatrist serving life in prison for his gruesome murders, but still managing to maintain an air of elegance and sophistication."
+        },
+        {
+            "name": "Clarice Starling",
+            "bio": "an FBI trainee with a troubled past and a sharp mind, tasked with interviewing Dr. Lecter for insight into a serial killer on the loose."
+        },
+        {
+            "name": "Buffalo Bill",
+            "bio": "an elusive and sadistic serial killer who skins his victims, leaving the FBI desperate to catch him before he kills again."
+        },
+        {
+            "name": "Jack Crawford",
+            "bio": "an experienced FBI agent who recruits Clarice Starling and leads the case against Buffalo Bill."
+        },
+        {
+            "name": "Dr. Frederick Chilton",
+            "bio": "the smarmy and arrogant director of the psychiatric hospital where Dr. Lecter is held, who constantly seeks to exploit his captive's notoriety for his own gain."
+        }
+    ],
+    "Indiana Jones Series": [
+        {
+            "name": "Dr. Marcus Brody",
+            "bio": "Curator of the National Museum and friend of Indiana Jones, who often seeks his advice on archaeological matters."
+        },
+        {
+            "name": "Ren\u00e9 Belloq",
+            "bio": "French archaeologist and main rival of Indiana Jones, who often steals artifacts from Jones and works for the Nazis in Raiders of the Lost Ark."
+        },
+        {
+            "name": "Sallah",
+            "bio": "Egyptian digger and friend of Indiana Jones, who helps him in his quest to find the Ark of the Covenant and the Holy Grail."
+        },
+        {
+            "name": "Elsa Schneider",
+            "bio": "Austrian art historian and Indiana Jones' love interest in Indiana Jones and the Last Crusade, who later turns out to be a Nazi spy."
+        },
+        {
+            "name": "Toht",
+            "bio": "Chief henchman of Ren\u00e9 Belloq and the Nazi party, who is killed by the power of the Ark of the Covenant in Raiders of the Lost Ark."
+        }
+    ],
+    "The Wizard of Oz": [
+        {
+            "name": "Dorothy",
+            "bio": "A young girl from Kansas who was transported to the magical land of Oz."
+        },
+        {
+            "name": "Scarecrow",
+            "bio": "A farmer made entirely of straw, brought to life by the Wizard of Oz."
+        },
+        {
+            "name": "Tin Man",
+            "bio": "A man made of tin who seeks a heart so he can feel emotions again."
+        },
+        {
+            "name": "Cowardly Lion",
+            "bio": "A lion who lacks courage, accompanying Dorothy on her journey to seek help from the Wizard of Oz."
+        },
+        {
+            "name": "Wicked Witch of the West",
+            "bio": "An evil witch who seeks to reclaim her sister's ruby slippers and rule over Oz with an iron fist."
+        }
+    ],
+    "Alice in Wonderland": [
+        {
+            "name": "Cheshire Cat",
+            "bio": "A mischievous feline with a constant grin, always leading Alice down the craziest paths of Wonderland."
+        },
+        {
+            "name": "Queen of Hearts",
+            "bio": "A tyrannical monarch who rules Wonderland with an iron fist, always shouting 'Off with their heads!'"
+        },
+        {
+            "name": "Mad Hatter",
+            "bio": "A wacky and unpredictable host who invites Alice to the craziest tea party of her life."
+        },
+        {
+            "name": "White Rabbit",
+            "bio": "A frantic and skittish messenger who is always running late and trying to evade the wrath of the Queen."
+        },
+        {
+            "name": "Caterpillar",
+            "bio": "A wise and enigmatic creature who offers Alice cryptic advice and smokes a hookah pipe all day."
+        }
+    ],
+    "The Avengers Series": [
+        {
+            "name": "Steve Rogers",
+            "bio": "A super-soldier from the 1940s who was thawed out in present day and now leads the Avengers as Captain America."
+        },
+        {
+            "name": "Tony Stark",
+            "bio": "A billionaire genius playboy philanthropist who suits up as Iron Man to fight alongside the Avengers."
+        },
+        {
+            "name": "Thor Odinson",
+            "bio": "The prince of Asgard who wields the mighty Mjolnir and uses his godly powers to protect the realms."
+        },
+        {
+            "name": "Natasha Romanoff",
+            "bio": "A former KGB agent turned S.H.I.E.L.D. agent and master spy who fights as the Black Widow."
+        },
+        {
+            "name": "Clint Barton",
+            "bio": "A former circus performer and S.H.I.E.L.D. agent who fights as the skilled marksman, Hawkeye."
+        }
+    ],
+    "Blade Runner": [
+        {
+            "name": "Raven Black",
+            "bio": "Ex-Blade Runner with a chip on her shoulder, now working as a mercenary."
+        },
+        {
+            "name": "Jack Frost",
+            "bio": "Engineer turned smuggler, known for his skill in fooling security systems."
+        },
+        {
+            "name": "Amira Hauser",
+            "bio": "Corrupt corporate executive with a taste for dangerous pleasures."
+        },
+        {
+            "name": "Maxine Fox",
+            "bio": "Streetwise prostitute who moonlights as a data hacker."
+        },
+        {
+            "name": "Kane Zephyr",
+            "bio": "Bounty hunter who operates in the shadows and has a reputation for taking down replicants with ease."
+        }
+    ],
+    "The Dark Tower Series": [
+        {
+            "name": "Roland Deschain",
+            "bio": "The last Gunslinger, on a quest to reach the Dark Tower and restore order to his world."
+        },
+        {
+            "name": "Eddie Dean",
+            "bio": "A former drug addict from New York, skilled at picking locks and adapting to new environments."
+        },
+        {
+            "name": "Susannah Dean",
+            "bio": "A wheelchair-bound woman with multiple personalities, who can call upon the strength of a warrior when necessary."
+        },
+        {
+            "name": "Jake Chambers",
+            "bio": "A young boy from our world who has been drawn into Roland's quest and possesses a powerful psychic ability."
+        },
+        {
+            "name": "Oy",
+            "bio": "A brave and loyal billy-bumbler who has become an invaluable companion to Roland and his ka-tet."
+        }
+    ],
+    "Ender's Game": [
+        {
+            "name": "Dink Meeker",
+            "bio": "A prodigy who made it to the top of Battle School at a young age, but resents his handlers and knows he could do more with his intellect."
+        },
+        {
+            "name": "Petra Arkanian",
+            "bio": "A brilliant and accomplished Battle School recruit who has a gift for strategy and tactics, but struggles with interpersonal relationships."
+        },
+        {
+            "name": "Rose the Nose",
+            "bio": "A clever and resourceful street urchin who has survived on the mean streets of Rotterdam by her wits and her uncanny sense of smell."
+        },
+        {
+            "name": "Bonzo Madrid",
+            "bio": "A fierce and ruthless commander at Battle School who dominates his subordinates with fear and intimidation."
+        },
+        {
+            "name": "Alai",
+            "bio": "A thoughtful and charismatic recruit who quickly forms close bonds with fellow students in Battle School and proves himself to be an invaluable ally in combat simulations."
+        }
+    ]
+}

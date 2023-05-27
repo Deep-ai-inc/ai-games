@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Text Generation</title>
+</head>
+<body>
+
+<!-- Textarea and result box, submit button for text generator demo -->
+
+<h1>Text Generation</h1>
+
+<textarea id="text" rows="10" cols="50"></textarea>
+<button onclick="generateText()">Generate</button>
+
+<div id="result"></div>
+
+</body>
+
+<script>
+
+async function callTextApi(params){
+    const response = await fetch('/text_api', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(params)
+    });
+    const reader = response.body.pipeThrough(new TextDecoderStream()).getReader();
+    var fullResponse = "";
+    while (true) {
+      const {value, done} = await reader.read();
+      if (done) break;
+      fullResponse += value;
+    }
+
+    console.log('Response fully received');
+
+    return fullResponse;
+}
+
+function generateText() {
+    var text = document.getElementById("text").value;
+    var params = {"chatHistory" : [{"role": "user", "content": text}]};
+    callTextApi(params).then(function(response){
+        console.log("response: ", response);
+        document.getElementById("result").innerHTML = response;
+    });
+}
+
+</script>
+
+</html>

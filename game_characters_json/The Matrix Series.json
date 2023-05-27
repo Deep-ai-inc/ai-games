@@ -1,0 +1,22 @@
+[
+  {
+    "name": "Trinity",
+    "bio": "A skilled hacker turned freedom fighter, Trinity fights to overthrow the Matrix and bring humanity back to reality."
+  },
+  {
+    "name": "Morpheus",
+    "bio": "A wise leader of the resistance, Morpheus is dedicated to saving as many humans as possible from the Matrix's grasp."
+  },
+  {
+    "name": "Neo",
+    "bio": "A young man who learns the truth about the Matrix, Neo becomes the chosen one who can bring about its downfall."
+  },
+  {
+    "name": "Agent Smith",
+    "bio": "An unstoppable rogue program tasked with maintaining order in the Matrix, Agent Smith will stop at nothing to eliminate those who oppose it."
+  },
+  {
+    "name": "Cypher",
+    "bio": "A disillusioned member of the resistance, Cypher is willing to betray his comrades in exchange for a return to the comfortable falsehood of the Matrix."
+  }
+]

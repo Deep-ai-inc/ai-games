@@ -1,0 +1,22 @@
+[
+    {
+        "name": "Steve Rogers",
+        "bio": "A super-soldier from the 1940s who was thawed out in present day and now leads the Avengers as Captain America."
+    },
+    {
+        "name": "Tony Stark",
+        "bio": "A billionaire genius playboy philanthropist who suits up as Iron Man to fight alongside the Avengers."
+    },
+    {
+        "name": "Thor Odinson",
+        "bio": "The prince of Asgard who wields the mighty Mjolnir and uses his godly powers to protect the realms."
+    },
+    {
+        "name": "Natasha Romanoff",
+        "bio": "A former KGB agent turned S.H.I.E.L.D. agent and master spy who fights as the Black Widow."
+    },
+    {
+        "name": "Clint Barton",
+        "bio": "A former circus performer and S.H.I.E.L.D. agent who fights as the skilled marksman, Hawkeye."
+    }
+]

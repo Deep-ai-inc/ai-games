@@ -1,0 +1,22 @@
+[
+    {
+        "name": "Dr. Marcus Brody",
+        "bio": "Curator of the National Museum and friend of Indiana Jones, who often seeks his advice on archaeological matters."
+    },
+    {
+        "name": "René Belloq",
+        "bio": "French archaeologist and main rival of Indiana Jones, who often steals artifacts from Jones and works for the Nazis in Raiders of the Lost Ark."
+    },
+    {
+        "name": "Sallah",
+        "bio": "Egyptian digger and friend of Indiana Jones, who helps him in his quest to find the Ark of the Covenant and the Holy Grail."
+    },
+    {
+        "name": "Elsa Schneider",
+        "bio": "Austrian art historian and Indiana Jones' love interest in Indiana Jones and the Last Crusade, who later turns out to be a Nazi spy."
+    },
+    {
+        "name": "Toht",
+        "bio": "Chief henchman of René Belloq and the Nazi party, who is killed by the power of the Ark of the Covenant in Raiders of the Lost Ark."
+    }
+]

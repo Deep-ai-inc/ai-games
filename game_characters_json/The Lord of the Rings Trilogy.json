@@ -1,0 +1,22 @@
+[
+  {
+    "name": "Gimli",
+    "bio": "A dwarf warrior on a quest to reclaim his ancient homeland and honor his family's legacy."
+  },
+  {
+    "name": "Eowyn",
+    "bio": "A shieldmaiden of Rohan who disguises herself as a man in order to fight for her people."
+  },
+  {
+    "name": "Galadriel",
+    "bio": "An elven queen with great power and wisdom who helps guide the Fellowship on their journey."
+  },
+  {
+    "name": "Bilbo Baggins",
+    "bio": "A hobbit who found the Ring many years ago and is now passing it on to Frodo to destroy it."
+  },
+  {
+    "name": "Saruman",
+    "bio": "Once a wise and powerful wizard, now corrupted by his lust for power and seeking to use the Ring for his own gain."
+  }
+]
